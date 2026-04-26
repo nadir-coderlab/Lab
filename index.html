@@ -16,11 +16,6 @@ if (typeof XLSX === 'undefined') {
     document.write('<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"><\/script>');
 }
 </script>
-<script>
-if (typeof XLSX === 'undefined') {
-    document.write('<script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"><\/script>');
-}
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -55,6 +50,7 @@ if (typeof XLSX === 'undefined') {
     --gradient-emerald: linear-gradient(135deg, #10B981 0%, #059669 100%);
     --gradient-amber: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
     --gradient-rose: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+    --gradient-blue: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
     
     --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
@@ -374,7 +370,7 @@ body {
     color: white;
 }
 
-.btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow-glow); }
+.btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--shadow-glow); }
 .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
 .btn-secondary {
@@ -383,7 +379,15 @@ body {
     border: 1px solid var(--border-medium);
 }
 
-.btn-secondary:hover { background: var(--bg-input); border-color: var(--border-strong); }
+.btn-secondary:hover:not(:disabled) { background: var(--bg-input); border-color: var(--border-strong); }
+.btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-accent {
+    background: var(--gradient-blue);
+    color: white;
+}
+.btn-accent:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 0 20px rgba(59,130,246,0.3); }
+.btn-accent:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* ======== EMPTY STATE ======== */
 .empty-state {
@@ -505,8 +509,9 @@ body {
     font-weight: 600;
 }
 
-.trend.up { color: var(--accent-rose); }
-.trend.down { color: var(--accent-emerald); }
+.trend.bad { color: var(--accent-rose); }
+.trend.good { color: var(--accent-emerald); }
+.trend.warning { color: var(--accent-amber); }
 .trend.neutral { color: var(--text-tertiary); }
 
 /* ======== HOSPITAL CARDS ======== */
@@ -567,19 +572,6 @@ body {
     letter-spacing: 0.5px;
 }
 
-.hospital-icon-large {
-    width: 52px;
-    height: 52px;
-    background: var(--bg-card-elevated);
-    border: 1px solid var(--border-medium);
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
-    box-shadow: 0 0 20px var(--hospital-accent);
-}
-
 .hospital-actions {
     display: flex;
     gap: 8px;
@@ -631,6 +623,11 @@ body {
 .kpi-tile.flagship {
     background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(15,21,36,0.4));
     border-color: var(--accent-emerald);
+}
+
+.kpi-tile.alert {
+    background: linear-gradient(135deg, rgba(239,68,68,0.05), rgba(15,21,36,0.4));
+    border-color: rgba(239,68,68,0.3);
 }
 
 .kpi-tile .kpi-label {
@@ -963,17 +960,6 @@ body {
     gap: 16px;
 }
 
-.slide-brand .badge {
-    width: 60px;
-    height: 60px;
-    background: var(--hospital-accent, var(--accent-emerald));
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-}
-
 .slide-brand h1 {
     font-family: 'Cairo', sans-serif;
     font-size: 28px;
@@ -1019,6 +1005,11 @@ body {
 .slide-kpi.flagship {
     background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(15,21,36,0.6));
     border-color: var(--accent-emerald);
+}
+
+.slide-kpi.alert {
+    background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(15,21,36,0.6));
+    border-color: rgba(239,68,68,0.4);
 }
 
 .slide-kpi .label {
@@ -1207,6 +1198,7 @@ body {
     .shifts-grid { grid-template-columns: 1fr; }
     .actions-bar { flex-direction: column; gap: 16px; align-items: stretch; }
     .actions-info { flex-wrap: wrap; }
+    .btn { justify-content: center; }
 }
 
 /* ======== UTIL ======== */
@@ -1325,6 +1317,7 @@ body {
             </div>
         </div>
         <div class="actions-buttons">
+            <button class="btn btn-accent" id="btnExportAll" disabled>تصدير الكل (صورة)</button>
             <button class="btn btn-secondary" id="btnReset">إعادة تعيين</button>
             <button class="btn btn-primary" id="btnAnalyze" disabled>تحليل البيانات</button>
         </div>
@@ -1387,10 +1380,6 @@ const HOSPITAL_ENG = {
     ohud: 'Ohud Hospital'
 };
 
-const HOSPITAL_ICONS = {
-    kgh: '', kmc: '', kfh: '', ohud: ''
-};
-
 const TARGET_OTC = 60;  // Order to Complete
 const TARGET_RTC = 35;  // Receive to Complete
 
@@ -1404,6 +1393,7 @@ function init() {
     
     document.getElementById('btnAnalyze').addEventListener('click', analyzeAll);
     document.getElementById('btnReset').addEventListener('click', resetAll);
+    document.getElementById('btnExportAll').addEventListener('click', exportAllDash);
 }
 
 // ======== FILE UPLOAD ========
@@ -1429,7 +1419,6 @@ function handleUpload(e) {
     reader.onload = (event) => {
         try {
             const data = new Uint8Array(event.target.result);
-            console.log(`[${hospital}] File size: ${data.length} bytes`);
             
             const wb = XLSX.read(data, { 
                 type: 'array', 
@@ -1438,14 +1427,10 @@ function handleUpload(e) {
                 cellText: false
             });
             
-            console.log(`[${hospital}] Sheet names:`, wb.SheetNames);
-            
             const ws = wb.Sheets[wb.SheetNames[0]];
             
-            // Fix !ref if corrupted (common SheetJS issue)
+            // Fix !ref if corrupted
             if (ws['!ref']) {
-                console.log(`[${hospital}] Original !ref:`, ws['!ref']);
-                // Compute actual range from cells
                 let maxRow = 0, maxCol = 0;
                 Object.keys(ws).forEach(key => {
                     if (key[0] === '!') return;
@@ -1458,10 +1443,8 @@ function handleUpload(e) {
                     }
                 });
                 ws['!ref'] = XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: maxRow, c: maxCol } });
-                console.log(`[${hospital}] Fixed !ref:`, ws['!ref']);
             }
             
-            // Try reading with header row at index 0
             let json = XLSX.utils.sheet_to_json(ws, { 
                 defval: null, 
                 raw: false,
@@ -1469,26 +1452,16 @@ function handleUpload(e) {
                 blankrows: false
             });
             
-            console.log(`[${hospital}] Initial parse: ${json.length} rows`);
-            if (json.length > 0) {
-                console.log(`[${hospital}] First row keys:`, Object.keys(json[0]));
-                console.log(`[${hospital}] First row sample:`, json[0]);
-            }
-            
-            // If 0 rows, try array-of-arrays approach
+            // Fallback to array-of-arrays reading
             if (json.length === 0) {
-                console.log(`[${hospital}] Falling back to AOA reading...`);
                 const aoa = XLSX.utils.sheet_to_json(ws, { header: 1, defval: null, raw: false, dateNF: 'yyyy-mm-dd hh:mm:ss' });
-                console.log(`[${hospital}] AOA rows: ${aoa.length}`);
                 if (aoa.length > 1) {
                     const headers = aoa[0].map(h => h ? String(h).trim() : '');
-                    console.log(`[${hospital}] AOA headers:`, headers);
                     json = aoa.slice(1).map(row => {
                         const obj = {};
                         headers.forEach((h, i) => { if (h) obj[h] = row[i] !== undefined ? row[i] : null; });
                         return obj;
                     }).filter(o => Object.values(o).some(v => v !== null && v !== ''));
-                    console.log(`[${hospital}] After AOA conversion: ${json.length} rows`);
                 }
             }
             
@@ -1513,7 +1486,6 @@ function handleUpload(e) {
     reader.onerror = (err) => {
         statusEl.textContent = 'خطأ في قراءة الملف';
         statusEl.className = 'upload-status error';
-        console.error(err);
     };
     reader.readAsArrayBuffer(file);
 }
@@ -1530,7 +1502,6 @@ function parseDate(val) {
     if (val === null || val === undefined || val === '') return null;
     if (val instanceof Date) return isNaN(val.getTime()) ? null : val;
     
-    // Excel serial number
     if (typeof val === 'number') {
         const d = new Date((val - 25569) * 86400 * 1000);
         return isNaN(d.getTime()) ? null : d;
@@ -1540,21 +1511,14 @@ function parseDate(val) {
     const s = val.trim();
     if (!s) return null;
     
-    // Try ISO format first (yyyy-mm-dd hh:mm:ss)
     let d = new Date(s);
     if (!isNaN(d.getTime())) return d;
     
-    // Try dd/mm/yyyy hh:mm[:ss] [AM/PM] format
-    // Examples: "26/04/2026 03:50 PM", "26/04/2026 11:30:27 AM", "24/04/2026 7:32:02"
     const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM|am|pm)?$/);
     if (m) {
         let [_, day, month, year, hour, minute, second, ampm] = m;
-        day = parseInt(day, 10);
-        month = parseInt(month, 10) - 1;
-        year = parseInt(year, 10);
-        hour = parseInt(hour, 10);
-        minute = parseInt(minute, 10);
-        second = second ? parseInt(second, 10) : 0;
+        day = parseInt(day, 10); month = parseInt(month, 10) - 1; year = parseInt(year, 10);
+        hour = parseInt(hour, 10); minute = parseInt(minute, 10); second = second ? parseInt(second, 10) : 0;
         
         if (ampm) {
             const isPM = ampm.toUpperCase() === 'PM';
@@ -1566,7 +1530,6 @@ function parseDate(val) {
         return isNaN(date.getTime()) ? null : date;
     }
     
-    // Try dd/mm/yyyy without time
     const m2 = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
     if (m2) {
         const date = new Date(parseInt(m2[3]), parseInt(m2[2]) - 1, parseInt(m2[1]));
@@ -1595,16 +1558,12 @@ function getShift(date) {
 }
 
 const SHIFT_LABELS = {
-    morning: { ar: 'الصباح', time: '07:30 - 15:30', icon: '' },
-    afternoon: { ar: 'العصر', time: '15:30 - 23:30', icon: '' },
-    night: { ar: 'الليل', time: '23:30 - 07:30', icon: '' }
+    morning: { ar: 'الصباح', time: '07:30 - 15:30' },
+    afternoon: { ar: 'العصر', time: '15:30 - 23:30' },
+    night: { ar: 'الليل', time: '23:30 - 07:30' }
 };
 
 // ======== DATA NORMALIZATION ========
-// Two file formats:
-// FORMAT A (KFH): Order Date / Collect Date / Receive Date / Complete Date / Patient Type / RejectedSamples
-// FORMAT B (others): Order Date and Time / Collect Date and Time / Date and Time Of Receiving in lab / Date and time result sent back to reauester / Sample Status
-
 function normalizeRow(row, hospital) {
     if (hospital === 'kfh') {
         return {
@@ -1641,7 +1600,7 @@ function isER(pt) {
 }
 
 function isRejected(row, hospital) {
-    if (hospital === 'kfh') return false; // KFH file doesn't have per-sample status
+    if (hospital === 'kfh') return false; 
     const s = (row.status || '').toLowerCase();
     return s.includes('reject') || (row.rejectReason && row.rejectReason !== '');
 }
@@ -1654,10 +1613,8 @@ function processHospital(hospital) {
     const all = raw.map(r => normalizeRow(r, hospital));
     const erAll = all.filter(r => isER(r.patientType));
     
-    // Rejected samples count
     const rejectedCount = erAll.filter(r => isRejected(r, hospital)).length;
     
-    // Completed samples (have all 4 timestamps)
     const completed = erAll.filter(r => 
         r.orderDate && r.collectDate && r.receiveDate && r.completeDate &&
         !isRejected(r, hospital)
@@ -1673,13 +1630,15 @@ function processHospital(hospital) {
         };
     }
     
-    // Calculate timings for each sample
     const timings = completed.map(r => {
         const otc = diffMinutes(r.orderDate, r.completeDate);
         const otc_collect = diffMinutes(r.orderDate, r.collectDate);
         const ctr = diffMinutes(r.collectDate, r.receiveDate);
         const rtc = diffMinutes(r.receiveDate, r.completeDate);
         const shift = getShift(r.orderDate);
+        const isCompliant = (otc !== null && otc <= TARGET_OTC) && (rtc !== null && rtc <= TARGET_RTC);
+        const outOfTarget = (otc !== null && otc > TARGET_OTC) || (rtc !== null && rtc > TARGET_RTC);
+
         return {
             ...r,
             otc: otc !== null && otc >= 0 ? otc : null,
@@ -1687,11 +1646,12 @@ function processHospital(hospital) {
             ctr: ctr !== null && ctr >= 0 ? ctr : null,
             rtc: rtc !== null && rtc >= 0 ? rtc : null,
             shift,
+            isCompliant,
+            outOfTarget,
             dateKey: r.orderDate ? r.orderDate.toISOString().slice(0, 10) : null
         };
     }).filter(r => r.otc !== null && r.rtc !== null);
     
-    // Aggregate metrics
     const avg = (arr, key) => {
         const valid = arr.filter(x => x[key] !== null && !isNaN(x[key]));
         if (valid.length === 0) return null;
@@ -1713,10 +1673,11 @@ function processHospital(hospital) {
         rtc: avg(timings, 'rtc'),
         rtc_median: median(timings, 'rtc'),
         compliance_otc: timings.filter(t => t.otc <= TARGET_OTC).length / timings.length * 100,
-        compliance_rtc: timings.filter(t => t.rtc <= TARGET_RTC).length / timings.length * 100
+        compliance_rtc: timings.filter(t => t.rtc <= TARGET_RTC).length / timings.length * 100,
+        compliance_overall: timings.filter(t => t.isCompliant).length / timings.length * 100,
+        out_of_target: timings.filter(t => t.outOfTarget).length
     };
     
-    // RTC distribution buckets
     const rtcBuckets = {
         b1: timings.filter(t => t.rtc <= 35).length,
         b2: timings.filter(t => t.rtc > 35 && t.rtc <= 60).length,
@@ -1724,7 +1685,6 @@ function processHospital(hospital) {
         b4: timings.filter(t => t.rtc > 90).length
     };
     
-    // By shift
     const byShift = {};
     ['morning', 'afternoon', 'night'].forEach(s => {
         const subset = timings.filter(t => t.shift === s);
@@ -1732,22 +1692,23 @@ function processHospital(hospital) {
             count: subset.length,
             otc: avg(subset, 'otc'),
             rtc: avg(subset, 'rtc'),
-            compliance_rtc: subset.length ? subset.filter(t => t.rtc <= TARGET_RTC).length / subset.length * 100 : 0
+            compliance_rtc: subset.length ? subset.filter(t => t.rtc <= TARGET_RTC).length / subset.length * 100 : 0,
+            compliance_overall: subset.length ? subset.filter(t => t.isCompliant).length / subset.length * 100 : 0
         };
     });
     
-    // By date
     const byDate = {};
     timings.forEach(t => {
         if (!t.dateKey) return;
         if (!byDate[t.dateKey]) {
-            byDate[t.dateKey] = { count: 0, otcSum: 0, rtcSum: 0, otcOnTarget: 0, rtcOnTarget: 0 };
+            byDate[t.dateKey] = { count: 0, otcSum: 0, rtcSum: 0, otcOnTarget: 0, rtcOnTarget: 0, compliantBoth: 0 };
         }
         byDate[t.dateKey].count++;
         byDate[t.dateKey].otcSum += t.otc;
         byDate[t.dateKey].rtcSum += t.rtc;
         if (t.otc <= TARGET_OTC) byDate[t.dateKey].otcOnTarget++;
         if (t.rtc <= TARGET_RTC) byDate[t.dateKey].rtcOnTarget++;
+        if (t.isCompliant) byDate[t.dateKey].compliantBoth++;
     });
     
     const dates = Object.keys(byDate).sort().map(d => ({
@@ -1756,10 +1717,10 @@ function processHospital(hospital) {
         otc: byDate[d].otcSum / byDate[d].count,
         rtc: byDate[d].rtcSum / byDate[d].count,
         compliance_otc: byDate[d].otcOnTarget / byDate[d].count * 100,
-        compliance_rtc: byDate[d].rtcOnTarget / byDate[d].count * 100
+        compliance_rtc: byDate[d].rtcOnTarget / byDate[d].count * 100,
+        compliance_overall: byDate[d].compliantBoth / byDate[d].count * 100
     }));
     
-    // RTC histogram (bins of 5 min from 0 to 120, then >120)
     const histogram = new Array(25).fill(0);
     timings.forEach(t => {
         const bin = Math.min(24, Math.floor(t.rtc / 5));
@@ -1797,6 +1758,7 @@ async function analyzeAll() {
     
     document.getElementById('emptyState').style.display = 'none';
     document.getElementById('resultsSection').classList.add('active');
+    document.getElementById('btnExportAll').disabled = false;
     
     renderExecSummary();
     renderHospitals();
@@ -1819,12 +1781,14 @@ function renderExecSummary() {
     const totalCompleted = valid.reduce((s, p) => s + p.completed, 0);
     const totalER = valid.reduce((s, p) => s + p.total, 0);
     const totalRejected = valid.reduce((s, p) => s + p.rejected, 0);
+    const totalOutOfTarget = valid.reduce((s, p) => s + p.overall.out_of_target, 0);
+    
     document.getElementById('totalSamples').textContent = totalER.toLocaleString('en');
     
     const weightedAvg = (key) => {
         let sum = 0, count = 0;
         valid.forEach(p => {
-            if (p.overall[key] !== null) {
+            if (p.overall[key] !== null && p.overall[key] !== undefined) {
                 sum += p.overall[key] * p.completed;
                 count += p.completed;
             }
@@ -1834,48 +1798,46 @@ function renderExecSummary() {
     
     const avgOTC = weightedAvg('otc');
     const avgRTC = weightedAvg('rtc');
-    const avgComplianceRTC = weightedAvg('compliance_rtc');
-    const avgComplianceOTC = weightedAvg('compliance_otc');
+    const avgComplianceOverall = weightedAvg('compliance_overall');
     
     const fmt = v => v === null ? '--' : v.toFixed(1);
     
-    // Date range
     const allDates = valid.flatMap(p => p.dates.map(d => d.date)).sort();
     const dateRange = allDates.length ? `${allDates[0]} → ${allDates[allDates.length-1]}` : '--';
     document.getElementById('execMeta').textContent = `${dateRange} • ${totalCompleted.toLocaleString('en')} عينة مكتملة`;
     
     const cards = [
         {
-            label: 'متوسط Order → Complete',
-            value: fmt(avgOTC),
-            unit: 'دقيقة',
-            target: `المستهدف: ${TARGET_OTC} دقيقة`,
-            trend: avgOTC ? (avgOTC <= TARGET_OTC ? 'down' : 'up') : 'neutral',
-            trendLabel: avgOTC ? (avgOTC <= TARGET_OTC ? 'ضمن الهدف' : `+${(avgOTC - TARGET_OTC).toFixed(1)} فوق الهدف`) : '--'
+            label: 'مؤشر الالتزام العام (مدمج)',
+            value: fmt(avgComplianceOverall),
+            unit: '%',
+            target: 'تحقيق هدفي OTC و RTC معاً',
+            trend: avgComplianceOverall > 80 ? 'good' : (avgComplianceOverall > 60 ? 'warning' : 'bad'),
+            trendLabel: avgComplianceOverall > 80 ? 'أداء ممتاز' : (avgComplianceOverall > 60 ? 'يحتاج تحسين' : 'أداء حرج')
+        },
+        {
+            label: 'العينات خارج المؤشر',
+            value: totalOutOfTarget.toLocaleString('en'),
+            unit: 'عينة',
+            target: `تجاوزت 60 دقيقة (OTC) أو 35 دقيقة (RTC)`,
+            trend: 'bad',
+            trendLabel: `من أصل ${totalCompleted.toLocaleString('en')} عينة مكتملة`
         },
         {
             label: 'متوسط Receive → Complete',
             value: fmt(avgRTC),
             unit: 'دقيقة',
             target: `المستهدف: ${TARGET_RTC} دقيقة`,
-            trend: avgRTC ? (avgRTC <= TARGET_RTC ? 'down' : 'up') : 'neutral',
+            trend: avgRTC ? (avgRTC <= TARGET_RTC ? 'good' : 'bad') : 'neutral',
             trendLabel: avgRTC ? (avgRTC <= TARGET_RTC ? 'ضمن الهدف' : `+${(avgRTC - TARGET_RTC).toFixed(1)} فوق الهدف`) : '--'
         },
         {
-            label: 'الالتزام بمؤشر ٣٥ دقيقة',
-            value: fmt(avgComplianceRTC),
-            unit: '%',
-            target: `${valid.reduce((s,p) => s + Math.round(p.completed * p.overall.compliance_rtc / 100), 0).toLocaleString('en')} عينة ضمن الهدف`,
-            trend: avgComplianceRTC > 70 ? 'down' : (avgComplianceRTC > 50 ? 'neutral' : 'up'),
-            trendLabel: avgComplianceRTC > 70 ? 'مستوى جيد' : (avgComplianceRTC > 50 ? 'يحتاج تحسين' : 'حرج')
-        },
-        {
-            label: 'العينات المرفوضة',
-            value: totalRejected.toLocaleString('en'),
-            unit: 'عينة',
-            target: `${(totalRejected / Math.max(totalER, 1) * 100).toFixed(2)}% من إجمالي ER`,
-            trend: 'neutral',
-            trendLabel: `من ${totalER.toLocaleString('en')} عينة طوارئ`
+            label: 'متوسط Order → Complete',
+            value: fmt(avgOTC),
+            unit: 'دقيقة',
+            target: `المستهدف: ${TARGET_OTC} دقيقة`,
+            trend: avgOTC ? (avgOTC <= TARGET_OTC ? 'good' : 'bad') : 'neutral',
+            trendLabel: avgOTC ? (avgOTC <= TARGET_OTC ? 'ضمن الهدف' : `+${(avgOTC - TARGET_OTC).toFixed(1)} فوق الهدف`) : '--'
         }
     ];
     
@@ -1883,6 +1845,7 @@ function renderExecSummary() {
         <div class="exec-card">
             <div class="label">${c.label}</div>
             <div class="value">${c.value}<span class="unit">${c.unit}</span></div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px; font-family: 'JetBrains Mono', monospace;">${c.target}</div>
             <div class="trend ${c.trend}">${c.trendLabel}</div>
         </div>
     `).join('');
@@ -1939,6 +1902,12 @@ function createHospitalCard(h, p) {
         return 'red';
     };
     
+    const compClass = (val) => {
+        if (val >= 80) return 'green';
+        if (val >= 60) return 'amber';
+        return 'red';
+    };
+    
     const dist = p.rtcBuckets;
     const total = dist.b1 + dist.b2 + dist.b3 + dist.b4;
     const pct = (n) => total > 0 ? (n / total * 100).toFixed(1) : '0';
@@ -1959,31 +1928,30 @@ function createHospitalCard(h, p) {
             
             <!-- KPI ROW -->
             <div class="kpi-row">
+                <div class="kpi-tile flagship">
+                    <div class="kpi-status ${compClass(o.compliance_overall)}"></div>
+                    <div class="kpi-label">الالتزام العام (مدمج)</div>
+                    <div class="kpi-value">${fmt(o.compliance_overall)}<span style="font-size:16px;color:var(--text-tertiary);">%</span></div>
+                    <div class="kpi-target">تحقيق هدفي (OTC 60) و (RTC 35) معاً</div>
+                    <div class="kpi-bar"><div class="kpi-bar-fill ${compClass(o.compliance_overall)}" style="width: ${Math.min(100, o.compliance_overall)}%"></div></div>
+                </div>
+                <div class="kpi-tile alert">
+                    <div class="kpi-status red" style="box-shadow: none;"></div>
+                    <div class="kpi-label">خارج المؤشر</div>
+                    <div class="kpi-value" style="color: var(--accent-rose);">${o.out_of_target.toLocaleString('en')}</div>
+                    <div class="kpi-target">عينة تجاوزت أحد المؤشرين أو كليهما</div>
+                </div>
                 <div class="kpi-tile">
                     <div class="kpi-status ${statusClass(o.otc, TARGET_OTC)}"></div>
-                    <div class="kpi-label">Order → Complete</div>
+                    <div class="kpi-label">متوسط Order → Complete</div>
                     <div class="kpi-value">${fmt(o.otc)}<span style="font-size:14px;color:var(--text-tertiary);"> دقيقة</span></div>
-                    <div class="kpi-target">المستهدف: ${TARGET_OTC} دقيقة • الالتزام ${fmt(o.compliance_otc)}%</div>
-                    <div class="kpi-bar"><div class="kpi-bar-fill ${statusClass(o.otc, TARGET_OTC)}" style="width: ${Math.min(100, o.compliance_otc)}%"></div></div>
+                    <div class="kpi-target">المستهدف: ${TARGET_OTC} دقيقة</div>
                 </div>
                 <div class="kpi-tile">
-                    <div class="kpi-status green"></div>
-                    <div class="kpi-label">Order → Collect</div>
-                    <div class="kpi-value">${fmt(o.otc_collect)}<span style="font-size:14px;color:var(--text-tertiary);"> دقيقة</span></div>
-                    <div class="kpi-target">من الطلب الى السحب</div>
-                </div>
-                <div class="kpi-tile">
-                    <div class="kpi-status green"></div>
-                    <div class="kpi-label">Collect → Receive</div>
-                    <div class="kpi-value">${fmt(o.ctr)}<span style="font-size:14px;color:var(--text-tertiary);"> دقيقة</span></div>
-                    <div class="kpi-target">من السحب الى الاستقبال</div>
-                </div>
-                <div class="kpi-tile flagship">
                     <div class="kpi-status ${statusClass(o.rtc, TARGET_RTC)}"></div>
-                    <div class="kpi-label">Receive → Complete</div>
+                    <div class="kpi-label">متوسط Receive → Complete</div>
                     <div class="kpi-value">${fmt(o.rtc)}<span style="font-size:14px;color:var(--text-tertiary);"> دقيقة</span></div>
-                    <div class="kpi-target">المستهدف: ${TARGET_RTC} دقيقة • الالتزام ${fmt(o.compliance_rtc)}%</div>
-                    <div class="kpi-bar"><div class="kpi-bar-fill ${statusClass(o.rtc, TARGET_RTC)}" style="width: ${Math.min(100, o.compliance_rtc)}%"></div></div>
+                    <div class="kpi-target">المستهدف: ${TARGET_RTC} دقيقة</div>
                 </div>
             </div>
             
@@ -2034,7 +2002,7 @@ function createHospitalCard(h, p) {
                         </div>
                     </div>
                     <div style="margin-top: 18px; padding: 12px; background: var(--bg-input); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-tertiary); display: flex; justify-content: space-between;">
-                        <span>الوسيط (Median) RTC</span>
+                        <span>الوسيط (Median) لـ RTC</span>
                         <span style="color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-weight: 700;">${fmt(o.rtc_median)} دقيقة</span>
                     </div>
                     <div style="margin-top: 8px; padding: 12px; background: rgba(239,68,68,0.06); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-tertiary); display: flex; justify-content: space-between;">
@@ -2062,16 +2030,16 @@ function createHospitalCard(h, p) {
                                     <span class="m-value">${sd.count.toLocaleString('en')}</span>
                                 </div>
                                 <div class="shift-metric">
+                                    <span class="m-label">الالتزام العام (مدمج)</span>
+                                    <span class="m-value ${sd.compliance_overall >= 70 ? 'on-target' : 'over-target'}">${fmt(sd.compliance_overall)}%</span>
+                                </div>
+                                <div class="shift-metric">
                                     <span class="m-label">متوسط OTC</span>
                                     <span class="m-value ${sd.otc !== null && sd.otc <= TARGET_OTC ? 'on-target' : 'over-target'}">${fmt(sd.otc)} د</span>
                                 </div>
                                 <div class="shift-metric">
                                     <span class="m-label">متوسط RTC</span>
                                     <span class="m-value ${sd.rtc !== null && sd.rtc <= TARGET_RTC ? 'on-target' : 'over-target'}">${fmt(sd.rtc)} د</span>
-                                </div>
-                                <div class="shift-metric">
-                                    <span class="m-label">الالتزام ٣٥د</span>
-                                    <span class="m-value ${sd.compliance_rtc >= 70 ? 'on-target' : 'over-target'}">${fmt(sd.compliance_rtc)}%</span>
                                 </div>
                             </div>
                         </div>
@@ -2095,21 +2063,21 @@ function createHospitalCard(h, p) {
                                 <tr>
                                     <th>التاريخ</th>
                                     <th>العينات</th>
+                                    <th>الالتزام العام</th>
                                     <th>OTC</th>
                                     <th>RTC</th>
-                                    <th>الالتزام</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${p.dates.map(d => {
-                                    const compClass = d.compliance_rtc >= 70 ? 'green' : (d.compliance_rtc >= 50 ? 'amber' : 'red');
+                                    const compClass = d.compliance_overall >= 80 ? 'green' : (d.compliance_overall >= 60 ? 'amber' : 'red');
                                     return `
                                         <tr>
                                             <td style="font-family: 'JetBrains Mono', monospace; font-size: 12px; direction: ltr; text-align: right;">${d.date}</td>
                                             <td class="num">${d.count}</td>
+                                            <td><span class="pill ${compClass}">${d.compliance_overall.toFixed(0)}%</span></td>
                                             <td class="num">${d.otc.toFixed(1)}</td>
                                             <td class="num">${d.rtc.toFixed(1)}</td>
-                                            <td><span class="pill ${compClass}">${d.compliance_rtc.toFixed(0)}%</span></td>
                                         </tr>
                                     `;
                                 }).join('')}
@@ -2142,6 +2110,21 @@ function generateInsights(h, p) {
     const insights = [];
     const o = p.overall;
     
+    // Critical: Compliance
+    if (o.compliance_overall < 50) {
+        insights.push({
+            type: 'critical',
+            icon: '',
+            text: `<strong>نسبة الالتزام العام متدنية (${o.compliance_overall.toFixed(1)}%)</strong> — أغلب العينات (${o.out_of_target.toLocaleString('en')} عينة) تتجاوز إما مؤشر OTC أو RTC.`
+        });
+    } else if (o.compliance_overall >= 80) {
+        insights.push({
+            type: 'success',
+            icon: '',
+            text: `<strong>التزام عام ممتاز (${o.compliance_overall.toFixed(1)}%)</strong> — أغلبية العينات تحقق الهدفين معاً بنجاح.`
+        });
+    }
+    
     // Critical: RTC over target
     if (o.rtc > TARGET_RTC) {
         const overage = o.rtc - TARGET_RTC;
@@ -2151,37 +2134,21 @@ function generateInsights(h, p) {
             icon: '',
             text: `<strong>متوسط زمن الاستقبال إلى النتيجة ${o.rtc.toFixed(1)} دقيقة</strong> — يتجاوز المؤشر المستهدف (٣٥ د) بنسبة <strong>${(overage / TARGET_RTC * 100).toFixed(0)}%</strong>. الفجوة الزمنية ${overage.toFixed(1)} دقيقة لكل عينة.`
         });
-    } else {
-        insights.push({
-            type: 'success',
-            icon: '',
-            text: `<strong>أداء الاستقبال إلى النتيجة ضمن الهدف</strong> — متوسط ${o.rtc.toFixed(1)} دقيقة (المستهدف ٣٥ د).`
-        });
     }
     
     // Worst shift
     const shifts = ['morning','afternoon','night'];
     const worstShift = shifts.reduce((w, s) => {
-        if (!p.byShift[s].rtc) return w;
-        if (!w || p.byShift[s].rtc > p.byShift[w].rtc) return s;
+        if (!p.byShift[s].compliance_overall) return w;
+        if (!w || p.byShift[s].compliance_overall < p.byShift[w].compliance_overall) return s;
         return w;
     }, null);
     
-    if (worstShift && p.byShift[worstShift].rtc > TARGET_RTC) {
+    if (worstShift && p.byShift[worstShift].compliance_overall < 60) {
         insights.push({
             type: 'warning',
             icon: '',
-            text: `<strong>شفت ${SHIFT_LABELS[worstShift].ar} هو الأضعف أداءً</strong> — متوسط RTC ${p.byShift[worstShift].rtc.toFixed(1)} د، نسبة الالتزام ${p.byShift[worstShift].compliance_rtc.toFixed(0)}% فقط من ${p.byShift[worstShift].count.toLocaleString('en')} عينة.`
-        });
-    }
-    
-    // Critical bucket
-    const critPct = p.rtcBuckets.b4 / p.completed * 100;
-    if (critPct > 10) {
-        insights.push({
-            type: 'critical',
-            icon: '',
-            text: `<strong>${p.rtcBuckets.b4.toLocaleString('en')} عينة (${critPct.toFixed(1)}%) تجاوزت ٩٠ دقيقة</strong> — تحتاج مراجعة فورية للأسباب الجذرية.`
+            text: `<strong>شفت ${SHIFT_LABELS[worstShift].ar} هو الأضعف في الالتزام</strong> — الالتزام العام ${p.byShift[worstShift].compliance_overall.toFixed(0)}% فقط من ${p.byShift[worstShift].count.toLocaleString('en')} عينة.`
         });
     }
     
@@ -2192,7 +2159,7 @@ function generateInsights(h, p) {
             insights.push({
                 type: 'warning',
                 icon: '',
-                text: `<strong>نسبة الرفض ${rejPct.toFixed(2)}%</strong> — ${p.rejected.toLocaleString('en')} عينة من ${p.total.toLocaleString('en')}. يستحق تحليل أسباب الرفض.`
+                text: `<strong>نسبة الرفض ${rejPct.toFixed(2)}%</strong> — ${p.rejected.toLocaleString('en')} عينة مرفوضة. يستحق تحليل أسباب الرفض المتكررة.`
             });
         }
     }
@@ -2210,15 +2177,15 @@ function generateInsights(h, p) {
     
     if (insights.length === 0) {
         insights.push({
-            type: 'success',
+            type: 'info',
             icon: '',
-            text: `<strong>الأداء العام ضمن المعايير</strong> — استمر في الحفاظ على المستوى الحالي.`
+            text: `<strong>الأداء العام مستقر.</strong>`
         });
     }
     
     return `
         <div class="insights-panel" style="margin-top: 24px;">
-            <h3>الملاحظات والتوصيات للمناقشة في الاجتماع</h3>
+            <h3>الملاحظات والتوصيات</h3>
             <div class="insights-list">
                 ${insights.map(ins => `
                     <div class="insight-item ${ins.type}">
@@ -2236,7 +2203,6 @@ function renderCharts(h, p) {
     Chart.defaults.font.family = 'Tajawal';
     Chart.defaults.font.size = 11;
     
-    // Histogram
     const histCanvas = document.getElementById(`chart-hist-${h}`);
     if (histCanvas) {
         const labels = p.histogram.map((_, i) => i === 24 ? '120+' : `${i*5}-${(i+1)*5}`);
@@ -2277,8 +2243,7 @@ function renderCharts(h, p) {
                             title: items => `الفئة: ${items[0].label} دقيقة`,
                             label: ctx => `${ctx.parsed.y} عينة`
                         }
-                    },
-                    annotation: {}
+                    }
                 },
                 scales: {
                     x: {
@@ -2294,7 +2259,6 @@ function renderCharts(h, p) {
         });
     }
     
-    // Trend chart (only if multiple dates)
     if (p.dates.length > 1) {
         const trendCanvas = document.getElementById(`chart-trend-${h}`);
         if (trendCanvas) {
@@ -2375,7 +2339,48 @@ function renderCharts(h, p) {
     }
 }
 
-// ======== SLIDE EXPORT ========
+// ======== EXPORT ALL HOSPITALS (LONG DASHBOARD) ========
+async function exportAllDash() {
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.classList.add('active');
+    document.getElementById('loadingText').textContent = 'جاري تجميع وتصدير الداشبورد كامل...';
+    
+    await new Promise(r => setTimeout(r, 100));
+    
+    const dashboardArea = document.getElementById('resultsSection');
+    
+    // Hide individual export buttons before capture to keep it clean
+    const actionButtons = dashboardArea.querySelectorAll('.hospital-actions');
+    actionButtons.forEach(btn => btn.style.display = 'none');
+    
+    try {
+        const canvas = await html2canvas(dashboardArea, {
+            scale: 1.5, // Balance between quality and file size
+            backgroundColor: '#0A0E1A',
+            useCORS: true,
+            logging: false,
+            windowWidth: 1600 // Standardize width during capture
+        });
+        
+        canvas.toBlob(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ER_Lab_Full_Dashboard_${new Date().toISOString().slice(0,10)}.png`;
+            a.click();
+            setTimeout(() => URL.revokeObjectURL(url), 100);
+        });
+    } catch (err) {
+        alert('خطأ في تصدير الداشبورد: ' + err.message);
+        console.error(err);
+    } finally {
+        // Restore buttons
+        actionButtons.forEach(btn => btn.style.display = 'flex');
+        overlay.classList.remove('active');
+    }
+}
+
+// ======== EXPORT SINGLE SLIDE (HIDDEN) ========
 async function exportSlide(h) {
     const p = STATE.processed[h];
     if (!p || p.empty) {
@@ -2398,6 +2403,13 @@ async function exportSlide(h) {
     const dateRange = p.dates.length > 1 
         ? `${p.dates[0].date} → ${p.dates[p.dates.length-1].date}` 
         : (p.dates[0]?.date || '--');
+    
+    const compColor = (val) => {
+        if (val === null) return '#F59E0B';
+        if (val >= 80) return '#10B981';
+        if (val >= 60) return '#F59E0B';
+        return '#EF4444';
+    };
     
     const statusColor = (val, target) => {
         if (val === null) return '#F59E0B';
@@ -2426,45 +2438,45 @@ async function exportSlide(h) {
         </div>
         
         <div class="slide-kpi-row">
+            <div class="slide-kpi flagship" style="border-color:${compColor(o.compliance_overall)}">
+                <div class="indicator" style="background:${compColor(o.compliance_overall)};box-shadow:0 0 8px ${compColor(o.compliance_overall)};"></div>
+                <div class="label">الالتزام العام (مدمج)</div>
+                <div class="value">${fmt(o.compliance_overall)}<span style="font-size:16px;color:#6B7388;">%</span></div>
+                <div class="target">هدفي OTC و RTC معاً</div>
+            </div>
+            <div class="slide-kpi alert">
+                <div class="indicator" style="background:#EF4444;"></div>
+                <div class="label">عينات خارج المؤشر</div>
+                <div class="value" style="color:#EF4444;">${o.out_of_target.toLocaleString('en')}</div>
+                <div class="target">تجاوزت أياً من الهدفين</div>
+            </div>
             <div class="slide-kpi">
-                <div class="indicator" style="background:${statusColor(o.otc, TARGET_OTC)};box-shadow:0 0 8px ${statusColor(o.otc, TARGET_OTC)};"></div>
-                <div class="label">Order → Complete</div>
+                <div class="indicator" style="background:${statusColor(o.otc, TARGET_OTC)};"></div>
+                <div class="label">متوسط Order → Complete</div>
                 <div class="value">${fmt(o.otc)}<span style="font-size:14px;color:#6B7388;"> د</span></div>
-                <div class="target">المستهدف ٦٠ د • التزام ${fmt(o.compliance_otc)}%</div>
+                <div class="target">المستهدف ٦٠ دقيقة</div>
             </div>
             <div class="slide-kpi">
-                <div class="indicator" style="background:#10B981;"></div>
-                <div class="label">Order → Collect</div>
-                <div class="value">${fmt(o.otc_collect)}<span style="font-size:14px;color:#6B7388;"> د</span></div>
-                <div class="target">من الطلب الى السحب</div>
-            </div>
-            <div class="slide-kpi">
-                <div class="indicator" style="background:#10B981;"></div>
-                <div class="label">Collect → Receive</div>
-                <div class="value">${fmt(o.ctr)}<span style="font-size:14px;color:#6B7388;"> د</span></div>
-                <div class="target">من السحب الى الاستقبال</div>
-            </div>
-            <div class="slide-kpi flagship">
-                <div class="indicator" style="background:${statusColor(o.rtc, TARGET_RTC)};box-shadow:0 0 8px ${statusColor(o.rtc, TARGET_RTC)};"></div>
-                <div class="label">Receive → Complete</div>
+                <div class="indicator" style="background:${statusColor(o.rtc, TARGET_RTC)};"></div>
+                <div class="label">متوسط Receive → Complete</div>
                 <div class="value">${fmt(o.rtc)}<span style="font-size:14px;color:#6B7388;"> د</span></div>
-                <div class="target">المستهدف ٣٥ د • التزام ${fmt(o.compliance_rtc)}%</div>
+                <div class="target">المستهدف ٣٥ دقيقة</div>
             </div>
         </div>
         
         <div class="slide-content-grid">
             <div class="slide-panel">
-                <h3>الأداء حسب الشفت (RTC)</h3>
+                <h3>الالتزام حسب الشفت</h3>
                 <div class="slide-shifts">
                     ${['morning','afternoon','night'].map(s => {
                         const sd = p.byShift[s];
                         const lbl = SHIFT_LABELS[s];
-                        const cls = sd.rtc !== null && sd.rtc <= TARGET_RTC ? 'under' : 'over';
+                        const cls = sd.compliance_overall >= 70 ? 'under' : 'over';
                         return `
                             <div class="slide-shift ${cls}">
                                 <div class="name">${lbl.ar}</div>
-                                <div class="val">${fmt(sd.rtc)}</div>
-                                <div class="lbl">${sd.count} عينة • ${fmt(sd.compliance_rtc)}%</div>
+                                <div class="val">${fmt(sd.compliance_overall)}%</div>
+                                <div class="lbl">${sd.count} عينة</div>
                             </div>
                         `;
                     }).join('')}
@@ -2500,10 +2512,6 @@ async function exportSlide(h) {
                         <div class="head"><span class="nm">> ٩٠ دقيقة (حرج)</span><span class="ct">${dist.b4.toLocaleString('en')} (${pct(dist.b4)}%)</span></div>
                         <div class="bar"><div style="width:${pct(dist.b4)}%;background:linear-gradient(90deg,#EF4444,#F87171);"></div></div>
                     </div>
-                </div>
-                <div style="margin-top: 14px; padding: 12px; background: rgba(239,68,68,0.06); border-radius: 8px; font-size: 12px; display: flex; justify-content: space-between;">
-                    <span style="color: var(--text-tertiary);">العينات المرفوضة</span>
-                    <span style="color: #EF4444; font-family: 'JetBrains Mono', monospace; font-weight: 700;">${p.rejected.toLocaleString('en')} عينة</span>
                 </div>
             </div>
         </div>
@@ -2566,14 +2574,13 @@ function resetAll() {
     document.getElementById('resultsSection').classList.remove('active');
     document.getElementById('hospitalsSection').innerHTML = '';
     document.getElementById('totalSamples').textContent = '--';
+    document.getElementById('btnExportAll').disabled = true;
     
     updateUploadStatus();
 }
 
-// Make exportSlide global
 window.exportSlide = exportSlide;
 
-// Init
 init();
 </script>
 
