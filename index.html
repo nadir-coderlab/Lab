@@ -448,7 +448,7 @@ body {
 
 .exec-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     position: relative;
 }
@@ -466,7 +466,6 @@ body {
     color: var(--text-tertiary);
     font-weight: 600;
     margin-bottom: 8px;
-    text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
@@ -588,7 +587,7 @@ body {
 /* ======== KPI ROW ======== */
 .kpi-row {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 14px;
     margin-bottom: 28px;
 }
@@ -612,12 +611,16 @@ body {
     border-color: rgba(239,68,68,0.3);
 }
 
+.kpi-tile.promise {
+    background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(15,21,36,0.4));
+    border-color: rgba(59,130,246,0.5);
+}
+
 .kpi-tile .kpi-label {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--text-tertiary);
     font-weight: 600;
     margin-bottom: 8px;
-    text-transform: uppercase;
     letter-spacing: 0.4px;
 }
 
@@ -648,6 +651,7 @@ body {
 .kpi-status.green { background: var(--accent-emerald); box-shadow: 0 0 8px var(--accent-emerald); }
 .kpi-status.amber { background: var(--accent-amber); box-shadow: 0 0 8px var(--accent-amber); }
 .kpi-status.red { background: var(--accent-rose); box-shadow: 0 0 8px var(--accent-rose); }
+.kpi-status.blue { background: var(--accent-blue); box-shadow: 0 0 8px var(--accent-blue); }
 
 .kpi-bar {
     margin-top: 12px;
@@ -820,59 +824,18 @@ body {
 .pill.amber { background: var(--accent-amber-glow); color: var(--accent-amber); }
 .pill.red { background: var(--accent-rose-glow); color: var(--accent-rose); }
 
-/* ======== INSIGHTS ======== */
-.insights-panel {
-    background: linear-gradient(135deg, rgba(245,158,11,0.06), var(--bg-card-elevated));
-    border: 1px solid rgba(245,158,11,0.2);
-    border-radius: var(--radius-lg);
-    padding: 20px;
-}
-
-.insights-panel h3 {
-    font-family: 'Cairo', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--accent-amber);
-}
-
-.insights-list { display: flex; flex-direction: column; gap: 10px; }
-
-.insight-item {
-    display: flex;
-    gap: 12px;
-    padding: 12px;
-    background: rgba(0,0,0,0.2);
-    border-radius: var(--radius-sm);
-    border-right: 3px solid var(--insight-color, var(--accent-amber));
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.insight-item.critical { --insight-color: var(--accent-rose); }
-.insight-item.warning { --insight-color: var(--accent-amber); }
-.insight-item.info { --insight-color: var(--accent-blue); }
-.insight-item.success { --insight-color: var(--accent-emerald); }
-
-.insight-item .icon { font-size: 18px; flex-shrink: 0; }
-.insight-item .text { color: var(--text-secondary); flex: 1; }
-.insight-item .text strong { color: var(--text-primary); font-weight: 700; }
-
 /* ======== SLIDE EXPORT (HIDDEN) ======== */
 .slide-export {
     position: absolute;
     left: -99999px;
     top: 0;
-    width: 1280px;
-    height: 720px;
+    width: 1920px;
+    height: 1080px;
     background: var(--bg-primary);
     background-image: 
         radial-gradient(circle at 20% 20%, rgba(16,185,129,0.06), transparent 50%),
         radial-gradient(circle at 80% 80%, rgba(59,130,246,0.04), transparent 50%);
-    padding: 50px;
+    padding: 75px;
     color: var(--text-primary);
     font-family: 'Tajawal', sans-serif;
     direction: rtl;
@@ -890,56 +853,56 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 32px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid var(--hospital-accent, var(--accent-emerald));
+    margin-bottom: 45px;
+    padding-bottom: 30px;
+    border-bottom: 3px solid var(--hospital-accent, var(--accent-emerald));
 }
 
 .slide-brand {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 24px;
 }
 
 .slide-brand h1 {
     font-family: 'Cairo', sans-serif;
-    font-size: 28px;
+    font-size: 42px;
     font-weight: 900;
     line-height: 1.2;
 }
 
 .slide-brand .subtitle {
-    font-size: 14px;
+    font-size: 21px;
     color: var(--text-tertiary);
-    margin-top: 4px;
+    margin-top: 8px;
 }
 
 .slide-meta {
     text-align: left;
-    font-size: 13px;
+    font-size: 20px;
     color: var(--text-tertiary);
     font-family: 'JetBrains Mono', monospace;
 }
 
 .slide-meta .date-big {
     color: var(--text-primary);
-    font-size: 16px;
+    font-size: 24px;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
 }
 
 .slide-kpi-row {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 24px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 21px;
+    margin-bottom: 36px;
 }
 
 .slide-kpi {
     background: var(--bg-card-elevated);
-    border-radius: 12px;
-    padding: 18px;
-    border: 1px solid var(--border-subtle);
+    border-radius: 18px;
+    padding: 24px;
+    border: 2px solid var(--border-subtle);
     position: relative;
 }
 
@@ -953,103 +916,109 @@ body {
     border-color: rgba(239,68,68,0.4);
 }
 
+.slide-kpi.promise {
+    background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(15,21,36,0.6));
+    border-color: rgba(59,130,246,0.5);
+}
+
 .slide-kpi .label {
-    font-size: 12px;
+    font-size: 16px;
     color: var(--text-tertiary);
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 9px;
 }
 
 .slide-kpi .value {
     font-family: 'Cairo', sans-serif;
-    font-size: 32px;
+    font-size: 42px;
     font-weight: 900;
     line-height: 1;
 }
 
 .slide-kpi .target {
-    font-size: 11px;
+    font-size: 14px;
     color: var(--text-muted);
     font-family: 'JetBrains Mono', monospace;
-    margin-top: 6px;
+    margin-top: 9px;
 }
 
 .slide-kpi .indicator {
     position: absolute;
-    top: 14px;
-    left: 14px;
-    width: 10px;
-    height: 10px;
+    top: 18px;
+    left: 18px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
 }
 
 .slide-content-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 30px;
 }
 
 .slide-panel {
     background: var(--bg-card-elevated);
-    border-radius: 12px;
-    padding: 18px;
-    border: 1px solid var(--border-subtle);
+    border-radius: 18px;
+    padding: 27px;
+    border: 2px solid var(--border-subtle);
 }
 
 .slide-panel h3 {
     font-family: 'Cairo', sans-serif;
-    font-size: 14px;
+    font-size: 21px;
     font-weight: 700;
-    margin-bottom: 14px;
+    margin-bottom: 21px;
     color: var(--text-primary);
 }
 
 .slide-shifts {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: 18px;
 }
 
 .slide-shift {
     background: var(--bg-input);
-    border-radius: 8px;
-    padding: 16px;
+    border-radius: 12px;
+    padding: 24px;
     text-align: center;
 }
 
 .slide-shift .name {
     font-family: 'Cairo', sans-serif;
-    font-size: 14px;
+    font-size: 21px;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .slide-shift .val-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border-subtle);
+    font-size: 24px;
 }
 
 .slide-shift .lbl {
-    font-size: 11px;
+    font-size: 16px;
     color: var(--text-tertiary);
     font-family: 'JetBrains Mono', monospace;
 }
 
 .slide-footer {
     position: absolute;
-    bottom: 20px;
-    left: 50px;
-    right: 50px;
+    bottom: 30px;
+    left: 75px;
+    right: 75px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 14px;
-    border-top: 1px solid var(--border-subtle);
-    font-size: 11px;
+    padding-top: 21px;
+    border-top: 2px solid var(--border-subtle);
+    font-size: 16px;
     color: var(--text-muted);
 }
 
@@ -1058,20 +1027,20 @@ body {
 /* Compare bars */
 .compare-row {
     display: grid;
-    grid-template-columns: 180px 1fr;
-    gap: 20px;
+    grid-template-columns: 240px 1fr;
+    gap: 30px;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 }
 .compare-label {
     font-family: 'Cairo', sans-serif;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 21px;
 }
 .compare-bar-wrap {
-    height: 36px;
+    height: 54px;
     background: var(--bg-input);
-    border-radius: 6px;
+    border-radius: 9px;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -1081,14 +1050,14 @@ body {
     height: 100%;
     position: absolute;
     left: 0; top: 0; bottom: 0;
-    border-radius: 6px;
+    border-radius: 9px;
 }
 .compare-bar-text {
     position: relative;
     z-index: 10;
-    padding: 0 12px;
+    padding: 0 18px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 21px;
     font-family: 'JetBrains Mono', monospace;
 }
 
@@ -1126,10 +1095,13 @@ body {
 }
 
 /* ======== RESPONSIVE ======== */
+@media (max-width: 1400px) {
+    .exec-grid { grid-template-columns: repeat(3, 1fr); }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 1280px) {
     .upload-grid { grid-template-columns: repeat(2, 1fr); }
-    .exec-grid { grid-template-columns: repeat(2, 1fr); }
-    .kpi-row { grid-template-columns: repeat(3, 1fr); }
     .analysis-grid { grid-template-columns: 1fr; }
 }
 
@@ -1251,11 +1223,11 @@ body {
                 <span class="value" id="totalSamples">--</span>
             </div>
             <div class="info-stat">
-                <span class="label">المستهدف Order→Complete</span>
+                <span class="label">المستهدف (الطلب إلى النتيجة)</span>
                 <span class="value">٦٠ دقيقة</span>
             </div>
             <div class="info-stat">
-                <span class="label">المستهدف Receive→Complete</span>
+                <span class="label">المستهدف (الاستقبال إلى النتيجة)</span>
                 <span class="value" style="color: var(--accent-emerald);">٣٥ دقيقة</span>
             </div>
         </div>
@@ -1270,7 +1242,7 @@ body {
     <!-- EMPTY STATE -->
     <div class="empty-state" id="emptyState">
         <h3>ارفع ملف واحد على الأقل لبدء التحليل</h3>
-        <p>الداشبورد يحلل عينات الطوارئ فقط (Patient Type = ER) ويستثني العينات الملغية والمعلقة</p>
+        <p>الداشبورد يحلل عينات الطوارئ فقط ويستثني العينات الملغية والمعلقة</p>
     </div>
 
     <!-- RESULTS SECTION -->
@@ -1509,6 +1481,8 @@ const SHIFT_LABELS = {
 // ======== DATA NORMALIZATION ========
 function normalizeRow(row, hospital) {
     const sId = row['Sample ID'] || row['SampleID'] || row['رقم العينة'] || '';
+    const pId = row['MRN'] || row['Patient ID'] || row['PatientID'] || row['رقم الملف'] || row['MRN No'] || row['File No'] || '';
+    
     if (hospital === 'kfh') {
         return {
             orderDate: parseDate(row['Order Date']),
@@ -1517,6 +1491,7 @@ function normalizeRow(row, hospital) {
             completeDate: parseDate(row['Complete Date']),
             patientType: (row['Patient Type'] || '').toString().trim(),
             sampleId: sId.toString().trim(),
+            patientId: pId.toString().trim(),
             testName: row['ExamName'],
             category: row['Category'],
             status: row['Complete Date'] ? 'Released' : 'Pending',
@@ -1531,6 +1506,7 @@ function normalizeRow(row, hospital) {
             completeDate: parseDate(row['Date and time result sent back to reauester']),
             patientType: (row['Patient Type'] || '').toString().trim(),
             sampleId: sId.toString().trim(),
+            patientId: pId.toString().trim(),
             testName: row['Test Name'],
             category: row['Lab Section'],
             status: status,
@@ -1582,7 +1558,6 @@ function processHospital(hospital) {
         const shift = getShift(r.orderDate);
         const isCompliantOtc = otc !== null && otc <= TARGET_OTC;
         const isCompliantRtc = rtc !== null && rtc <= TARGET_RTC;
-        const outOfTarget = !isCompliantOtc || !isCompliantRtc;
 
         return {
             ...r,
@@ -1593,7 +1568,6 @@ function processHospital(hospital) {
             shift,
             isCompliantOtc,
             isCompliantRtc,
-            outOfTarget,
             dateKey: r.orderDate ? r.orderDate.toISOString().slice(0, 10) : null
         };
     }).filter(r => r.otc !== null && r.rtc !== null);
@@ -1611,12 +1585,45 @@ function processHospital(hospital) {
         return valid.length % 2 ? valid[m] : (valid[m-1] + valid[m]) / 2;
     };
 
-    // Calculate out of target samples (Unique)
-    const outOfTargetTimings = timings.filter(t => t.outOfTarget);
-    const uniqueSampleIdsOut = new Set(outOfTargetTimings.map(t => t.sampleId).filter(id => id !== ''));
-    const missingIdOut = outOfTargetTimings.filter(t => !t.sampleId || t.sampleId === '').length;
-    const finalOutSamplesCount = uniqueSampleIdsOut.size + missingIdOut;
+    // Calculate unique out of target samples
+    const delayedOtcTimings = timings.filter(t => !t.isCompliantOtc);
+    const delayedRtcTimings = timings.filter(t => !t.isCompliantRtc);
+
+    const uniqueOtcIds = new Set(delayedOtcTimings.map(t => t.sampleId).filter(id => id !== ''));
+    const countDelayedOtc = uniqueOtcIds.size + delayedOtcTimings.filter(t => !t.sampleId).length;
+
+    const uniqueRtcIds = new Set(delayedRtcTimings.map(t => t.sampleId).filter(id => id !== ''));
+    const countDelayedRtc = uniqueRtcIds.size + delayedRtcTimings.filter(t => !t.sampleId).length;
     
+    // Detailed list of Top RTC & OTC delays for the tables (Deduplicated)
+    const getUniqueDelays = (timingsList, target) => {
+        const map = new Map();
+        timingsList.forEach(t => {
+            const id = t.sampleId || 'بدون رقم (' + Math.floor(Math.random()*1000) + ')';
+            const valueToCheck = target === TARGET_RTC ? t.rtc : t.otc;
+            
+            if (!map.has(id)) {
+                map.set(id, { id: t.sampleId || 'بدون رقم', test: t.testName || 'غير محدد', val: valueToCheck, diff: valueToCheck - target });
+            } else {
+                const existing = map.get(id);
+                if (t.testName && !existing.test.includes(t.testName)) existing.test += ' + ' + t.testName;
+                if (valueToCheck > existing.val) {
+                    existing.val = valueToCheck;
+                    existing.diff = valueToCheck - target;
+                }
+            }
+        });
+        return Array.from(map.values()).sort((a,b) => b.diff - a.diff).slice(0, 50); // Fetch top 50 to allow scrolling
+    };
+    
+    const topDelayedRtc = getUniqueDelays(delayedRtcTimings, TARGET_RTC);
+    const topDelayedOtc = getUniqueDelays(delayedOtcTimings, TARGET_OTC);
+
+    // Executive Promise (Tests per patient)
+    const uniquePatients = new Set(erAll.map(r => r.patientId).filter(id => id !== ''));
+    const patientsCount = uniquePatients.size;
+    const testsPerPatient = patientsCount > 0 ? (erAll.length / patientsCount) : 0;
+
     const overall = {
         otc: avg(timings, 'otc'),
         otc_median: median(timings, 'otc'),
@@ -1626,7 +1633,10 @@ function processHospital(hospital) {
         rtc_median: median(timings, 'rtc'),
         compliance_otc: timings.filter(t => t.isCompliantOtc).length / timings.length * 100,
         compliance_rtc: timings.filter(t => t.isCompliantRtc).length / timings.length * 100,
-        out_of_target_samples: finalOutSamplesCount
+        delayed_otc_samples: countDelayedOtc,
+        delayed_rtc_samples: countDelayedRtc,
+        tests_per_patient: testsPerPatient,
+        total_patients: patientsCount
     };
     
     const byShift = {};
@@ -1679,6 +1689,8 @@ function processHospital(hospital) {
         dates,
         histogram,
         timings,
+        topDelayedRtc,
+        topDelayedOtc,
         empty: false
     };
 }
@@ -1722,8 +1734,10 @@ function renderExecSummary() {
     
     const totalCompleted = valid.reduce((s, p) => s + p.completed, 0);
     const totalER = valid.reduce((s, p) => s + p.total, 0);
+    const totalPatients = valid.reduce((s, p) => s + p.overall.total_patients, 0);
     const totalRejected = valid.reduce((s, p) => s + p.rejected, 0);
-    const totalOutOfTargetSamples = valid.reduce((s, p) => s + p.overall.out_of_target_samples, 0);
+    const totalDelayedOtc = valid.reduce((s, p) => s + p.overall.delayed_otc_samples, 0);
+    const totalDelayedRtc = valid.reduce((s, p) => s + p.overall.delayed_rtc_samples, 0);
     
     document.getElementById('totalSamples').textContent = totalCompleted.toLocaleString('en');
     
@@ -1740,6 +1754,7 @@ function renderExecSummary() {
     
     const avgComplianceOTC = weightedAvg('compliance_otc');
     const avgComplianceRTC = weightedAvg('compliance_rtc');
+    const avgTestsPerPatient = totalPatients > 0 ? (totalER / totalPatients) : 0;
     
     const fmt = v => v === null ? '--' : v.toFixed(1);
     
@@ -1749,7 +1764,15 @@ function renderExecSummary() {
     
     const cards = [
         {
-            label: 'التزام الطلب للنتيجة (OTC)',
+            label: 'الوعد التنفيذي (معدل الفحوصات)',
+            value: fmt(avgTestsPerPatient),
+            unit: 'فحص/مريض',
+            target: `المستهدف <= ١٠ اختبارات للملف`,
+            trend: avgTestsPerPatient <= 10 ? 'good' : (avgTestsPerPatient <= 12 ? 'warning' : 'bad'),
+            trendLabel: avgTestsPerPatient <= 10 ? 'أداء ممتاز' : 'تجاوز المستهدف'
+        },
+        {
+            label: 'التزام (الطلب إلى النتيجة)',
             value: fmt(avgComplianceOTC),
             unit: '%',
             target: 'المستهدف <= ٦٠ دقيقة',
@@ -1757,7 +1780,7 @@ function renderExecSummary() {
             trendLabel: avgComplianceOTC > 80 ? 'أداء ممتاز' : (avgComplianceOTC > 60 ? 'يحتاج تحسين' : 'أداء حرج')
         },
         {
-            label: 'التزام الاستقبال للنتيجة (RTC)',
+            label: 'التزام (الاستقبال إلى النتيجة)',
             value: fmt(avgComplianceRTC),
             unit: '%',
             target: 'المستهدف <= ٣٥ دقيقة',
@@ -1765,12 +1788,20 @@ function renderExecSummary() {
             trendLabel: avgComplianceRTC > 80 ? 'أداء ممتاز' : (avgComplianceRTC > 60 ? 'يحتاج تحسين' : 'أداء حرج')
         },
         {
-            label: 'العينات المتأخرة (فريدة)',
-            value: totalOutOfTargetSamples.toLocaleString('en'),
+            label: 'متأخرة (الطلب للنتيجة)',
+            value: totalDelayedOtc.toLocaleString('en'),
             unit: 'عينة',
-            target: `تجاوزت أحد المؤشرين`,
+            target: `تجاوزت ٦٠ دقيقة`,
             trend: 'bad',
-            trendLabel: `عينة برقم Sample ID`
+            trendLabel: `فريدة برقم Sample ID`
+        },
+        {
+            label: 'متأخرة (الاستقبال للنتيجة)',
+            value: totalDelayedRtc.toLocaleString('en'),
+            unit: 'عينة',
+            target: `تجاوزت ٣٥ دقيقة`,
+            trend: 'bad',
+            trendLabel: `فريدة برقم Sample ID`
         },
         {
             label: 'العينات المرفوضة',
@@ -1836,10 +1867,16 @@ function createHospitalCard(h, p) {
     const fmt = v => v === null ? '--' : v.toFixed(1);
     const o = p.overall;
     
-    const compClass = (val) => {
-        if (val >= 80) return 'green';
-        if (val >= 60) return 'amber';
-        return 'red';
+    const compClass = (val, target, reverse = false) => {
+        if (reverse) {
+            if (val <= target) return 'green';
+            if (val <= target * 1.2) return 'amber';
+            return 'red';
+        } else {
+            if (val >= 80) return 'green';
+            if (val >= 60) return 'amber';
+            return 'red';
+        }
     };
     
     div.innerHTML = `
@@ -1858,41 +1895,55 @@ function createHospitalCard(h, p) {
             
             <!-- KPI ROW -->
             <div class="kpi-row">
+                <div class="kpi-tile promise">
+                    <div class="kpi-status ${compClass(o.tests_per_patient, 10, true)}"></div>
+                    <div class="kpi-label" style="color: var(--accent-blue);">الوعد التنفيذي (معدل الفحوصات)</div>
+                    <div class="kpi-value">${fmt(o.tests_per_patient)}<span style="font-size:16px;color:var(--text-tertiary);"> فحص/مريض</span></div>
+                    <div class="kpi-target">الهدف: ١٠ • الإجمالي ${o.total_patients.toLocaleString('en')} مريض</div>
+                </div>
+
                 <div class="kpi-tile flagship">
                     <div class="kpi-status ${compClass(o.compliance_otc)}"></div>
-                    <div class="kpi-label">التزام الطلب للنتيجة OTC</div>
+                    <div class="kpi-label">التزام (الطلب إلى النتيجة)</div>
                     <div class="kpi-value">${fmt(o.compliance_otc)}<span style="font-size:16px;color:var(--text-tertiary);">%</span></div>
-                    <div class="kpi-target">الهدف: ${TARGET_OTC} دقيقة • المتوسط: ${fmt(o.otc)}د</div>
+                    <div class="kpi-target">الهدف: ${TARGET_OTC} دقيقة</div>
                     <div class="kpi-bar"><div class="kpi-bar-fill ${compClass(o.compliance_otc)}" style="width: ${Math.min(100, o.compliance_otc)}%"></div></div>
                 </div>
                 
+                <div class="kpi-tile alert">
+                    <div class="kpi-status red" style="box-shadow: none;"></div>
+                    <div class="kpi-label">متأخرة (الطلب للنتيجة)</div>
+                    <div class="kpi-value" style="color: var(--accent-rose);">${o.delayed_otc_samples.toLocaleString('en')}</div>
+                    <div class="kpi-target">عينة فريدة تجاوزت الـ ${TARGET_OTC} دقيقة</div>
+                </div>
+
+                <div class="kpi-tile">
+                    <div class="kpi-status green"></div>
+                    <div class="kpi-label">متوسط (الطلب إلى النتيجة)</div>
+                    <div class="kpi-value">${fmt(o.otc)}<span style="font-size:14px;color:var(--text-tertiary);"> د</span></div>
+                    <div class="kpi-target">الوسيط: ${fmt(o.otc_median)} دقيقة</div>
+                </div>
+
                 <div class="kpi-tile flagship">
                     <div class="kpi-status ${compClass(o.compliance_rtc)}"></div>
-                    <div class="kpi-label">التزام الاستقبال للنتيجة RTC</div>
+                    <div class="kpi-label">التزام (الاستقبال إلى النتيجة)</div>
                     <div class="kpi-value">${fmt(o.compliance_rtc)}<span style="font-size:16px;color:var(--text-tertiary);">%</span></div>
-                    <div class="kpi-target">الهدف: ${TARGET_RTC} دقيقة • المتوسط: ${fmt(o.rtc)}د</div>
+                    <div class="kpi-target">الهدف: ${TARGET_RTC} دقيقة</div>
                     <div class="kpi-bar"><div class="kpi-bar-fill ${compClass(o.compliance_rtc)}" style="width: ${Math.min(100, o.compliance_rtc)}%"></div></div>
                 </div>
 
                 <div class="kpi-tile alert">
                     <div class="kpi-status red" style="box-shadow: none;"></div>
-                    <div class="kpi-label">العينات المتأخرة</div>
-                    <div class="kpi-value" style="color: var(--accent-rose);">${o.out_of_target_samples.toLocaleString('en')}</div>
-                    <div class="kpi-target">عينة فريدة تأخرت في أي مؤشر</div>
-                </div>
-                
-                <div class="kpi-tile">
-                    <div class="kpi-status green"></div>
-                    <div class="kpi-label">متوسط Order → Collect</div>
-                    <div class="kpi-value">${fmt(o.otc_collect)}<span style="font-size:14px;color:var(--text-tertiary);"> دقيقة</span></div>
-                    <div class="kpi-target">من الطلب إلى السحب</div>
+                    <div class="kpi-label">متأخرة (الاستقبال للنتيجة)</div>
+                    <div class="kpi-value" style="color: var(--accent-rose);">${o.delayed_rtc_samples.toLocaleString('en')}</div>
+                    <div class="kpi-target">عينة فريدة تجاوزت الـ ${TARGET_RTC} دقيقة</div>
                 </div>
 
                 <div class="kpi-tile">
                     <div class="kpi-status green"></div>
-                    <div class="kpi-label">متوسط Collect → Receive</div>
-                    <div class="kpi-value">${fmt(o.ctr)}<span style="font-size:14px;color:var(--text-tertiary);"> دقيقة</span></div>
-                    <div class="kpi-target">من السحب إلى الاستقبال</div>
+                    <div class="kpi-label">متوسط (الاستقبال إلى النتيجة)</div>
+                    <div class="kpi-value">${fmt(o.rtc)}<span style="font-size:14px;color:var(--text-tertiary);"> د</span></div>
+                    <div class="kpi-target">الوسيط: ${fmt(o.rtc_median)} دقيقة</div>
                 </div>
             </div>
             
@@ -1900,8 +1951,8 @@ function createHospitalCard(h, p) {
             <div class="analysis-grid">
                 <div class="panel">
                     <div class="panel-header">
-                        <h3>توزيع الزمن: Receive → Complete</h3>
-                        <div class="panel-meta">${p.completed.toLocaleString('en')} عينة</div>
+                        <h3>توزيع الزمن: الاستقبال إلى النتيجة</h3>
+                        <div class="panel-meta">${p.completed.toLocaleString('en')} اختبار</div>
                     </div>
                     <div class="chart-container tall">
                         <canvas id="chart-hist-${h}"></canvas>
@@ -1923,15 +1974,15 @@ function createHospitalCard(h, p) {
                             <div class="shift-time">${lbl.time}</div>
                             <div class="shift-metrics">
                                 <div class="shift-metric">
-                                    <span class="m-label">عدد العينات</span>
+                                    <span class="m-label">عدد الاختبارات</span>
                                     <span class="m-value">${sd.count.toLocaleString('en')}</span>
                                 </div>
                                 <div class="shift-metric">
-                                    <span class="m-label">التزام الطلب للنتيجة OTC</span>
+                                    <span class="m-label">التزام (الطلب للنتيجة)</span>
                                     <span class="m-value ${sd.compliance_otc >= 70 ? 'on-target' : 'over-target'}">${fmt(sd.compliance_otc)}%</span>
                                 </div>
                                 <div class="shift-metric">
-                                    <span class="m-label">التزام الاستقبال للنتيجة RTC</span>
+                                    <span class="m-label">التزام (الاستقبال للنتيجة)</span>
                                     <span class="m-value ${sd.compliance_rtc >= 70 ? 'on-target' : 'over-target'}">${fmt(sd.compliance_rtc)}%</span>
                                 </div>
                             </div>
@@ -1940,137 +1991,66 @@ function createHospitalCard(h, p) {
                 }).join('')}
             </div>
             
-            <!-- DATES -->
-            ${p.dates.length > 1 ? `
-                <div class="section-title" style="margin-top: 24px;">
-                    <h2 style="font-size: 16px;">الأداء اليومي</h2>
-                </div>
-                <div class="analysis-grid" style="grid-template-columns: 1fr 1.2fr;">
-                    <div class="panel">
-                        <div class="panel-header">
-                            <h3>تفصيل الأيام</h3>
-                            <div class="panel-meta">${p.dates.length} أيام</div>
-                        </div>
-                        <table class="dates-table">
-                            <thead>
+            <!-- DELAYED SAMPLES TABLES -->
+            <div class="section-title" style="margin-top: 24px;">
+                <h2 style="font-size: 16px;">تفاصيل العينات المتأخرة</h2>
+            </div>
+            <div class="analysis-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="panel" style="max-height: 400px; overflow-y: auto; padding: 0;">
+                    <div class="panel-header" style="position: sticky; top: 0; background: var(--bg-card-elevated); z-index: 10; margin: 0; padding: 22px 22px 14px 22px;">
+                        <h3>العينات المتأخرة (الطلب إلى النتيجة)</h3>
+                        <div class="panel-meta">أكثر العينات تأخراً (> ٦٠د)</div>
+                    </div>
+                    <table class="dates-table" style="border-radius: 0; background: transparent;">
+                        <thead>
+                            <tr>
+                                <th style="text-align: right;">رقم العينة Sample ID</th>
+                                <th style="text-align: right;">الاختبار</th>
+                                <th>الزمن (الطلب للنتيجة)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${p.topDelayedOtc.length > 0 ? p.topDelayedOtc.map(t => `
                                 <tr>
-                                    <th>التاريخ</th>
-                                    <th>العينات</th>
-                                    <th>التزام OTC</th>
-                                    <th>التزام RTC</th>
+                                    <td style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-primary);">${t.id}</td>
+                                    <td style="font-size: 11px; color: var(--text-secondary); max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${t.test}">${t.test}</td>
+                                    <td class="num" style="color: var(--accent-rose);">${t.val.toFixed(0)} دقيقة <br><span style="font-size:10px; color:var(--text-tertiary);"> (+${t.diff.toFixed(0)} د عن الهدف)</span></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                ${p.dates.map(d => {
-                                    const compOtcClass = d.compliance_otc >= 80 ? 'green' : (d.compliance_otc >= 60 ? 'amber' : 'red');
-                                    const compRtcClass = d.compliance_rtc >= 80 ? 'green' : (d.compliance_rtc >= 60 ? 'amber' : 'red');
-                                    return `
-                                        <tr>
-                                            <td style="font-family: 'JetBrains Mono', monospace; font-size: 12px; direction: ltr; text-align: right;">${d.date}</td>
-                                            <td class="num">${d.count}</td>
-                                            <td><span class="pill ${compOtcClass}">${d.compliance_otc.toFixed(0)}%</span></td>
-                                            <td><span class="pill ${compRtcClass}">${d.compliance_rtc.toFixed(0)}%</span></td>
-                                        </tr>
-                                    `;
-                                }).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="panel">
-                        <div class="panel-header">
-                            <h3>اتجاه الأداء عبر الأيام</h3>
-                            <div class="panel-meta">نسبة مئوية %</div>
-                        </div>
-                        <div class="chart-container tall">
-                            <canvas id="chart-trend-${h}"></canvas>
-                        </div>
-                    </div>
+                            `).join('') : `<tr><td colspan="3" style="text-align:center; padding: 30px; color: var(--accent-emerald);">لا توجد عينات متأخرة</td></tr>`}
+                        </tbody>
+                    </table>
                 </div>
-            ` : ''}
-            
-            <!-- INSIGHTS -->
-            ${generateInsights(h, p)}
+
+                <div class="panel" style="max-height: 400px; overflow-y: auto; padding: 0;">
+                    <div class="panel-header" style="position: sticky; top: 0; background: var(--bg-card-elevated); z-index: 10; margin: 0; padding: 22px 22px 14px 22px;">
+                        <h3>العينات المتأخرة (الاستقبال إلى النتيجة)</h3>
+                        <div class="panel-meta">أكثر العينات تأخراً (> ٣٥د)</div>
+                    </div>
+                    <table class="dates-table" style="border-radius: 0; background: transparent;">
+                        <thead>
+                            <tr>
+                                <th style="text-align: right;">رقم العينة Sample ID</th>
+                                <th style="text-align: right;">الاختبار</th>
+                                <th>الزمن (الاستقبال للنتيجة)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${p.topDelayedRtc.length > 0 ? p.topDelayedRtc.map(t => `
+                                <tr>
+                                    <td style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-primary);">${t.id}</td>
+                                    <td style="font-size: 11px; color: var(--text-secondary); max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${t.test}">${t.test}</td>
+                                    <td class="num" style="color: var(--accent-rose);">${t.val.toFixed(0)} دقيقة <br><span style="font-size:10px; color:var(--text-tertiary);"> (+${t.diff.toFixed(0)} د عن الهدف)</span></td>
+                                </tr>
+                            `).join('') : `<tr><td colspan="3" style="text-align:center; padding: 30px; color: var(--accent-emerald);">لا توجد عينات متأخرة</td></tr>`}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             
         </div>
     `;
     
     return div;
-}
-
-// ======== INSIGHTS GENERATOR ========
-function generateInsights(h, p) {
-    const insights = [];
-    const o = p.overall;
-    
-    // Critical: Compliance OTC
-    if (o.compliance_otc < 50) {
-        insights.push({
-            type: 'critical',
-            icon: '',
-            text: `<strong>التزام مؤشر (الطلب للنتيجة) متدني (${o.compliance_otc.toFixed(1)}%)</strong> — يجب مراجعة دورة العينة كاملة من وقت الطلب.`
-        });
-    }
-    
-    // Critical: Compliance RTC
-    if (o.compliance_rtc < 50) {
-        insights.push({
-            type: 'critical',
-            icon: '',
-            text: `<strong>التزام مؤشر (الاستقبال للنتيجة) متدني (${o.compliance_rtc.toFixed(1)}%)</strong> — التأخير يحدث داخل قسم المختبر بعد استلام العينة.`
-        });
-    }
-
-    if (o.compliance_otc >= 80 && o.compliance_rtc >= 80) {
-        insights.push({
-            type: 'success',
-            icon: '',
-            text: `<strong>التزام ممتاز في جميع المؤشرات</strong> — استمر في الحفاظ على المستوى الحالي.`
-        });
-    }
-    
-    // Rejected
-    if (p.rejected > 0) {
-        const rejPct = p.rejected / p.total * 100;
-        if (rejPct > 2) {
-            insights.push({
-                type: 'warning',
-                icon: '',
-                text: `<strong>نسبة الرفض ${rejPct.toFixed(2)}%</strong> — ${p.rejected.toLocaleString('en')} عينة مرفوضة. يستحق تحليل أسباب الرفض المتكررة.`
-            });
-        }
-    }
-    
-    // Pre-receive bottleneck
-    const preReceive = (o.otc_collect || 0) + (o.ctr || 0);
-    const otcGap = o.otc - preReceive - o.rtc;
-    if (Math.abs(otcGap) < 5 && preReceive > 25 && o.rtc <= TARGET_RTC) {
-        insights.push({
-            type: 'info',
-            icon: '',
-            text: `<strong>المختبر يحقق الهدف، التأخير في النقل!</strong> الزمن قبل الاستقبال (${preReceive.toFixed(1)} دقيقة) يمثل الجزء الأكبر من التأخير، بينما أداء المختبر الداخلي سليم.`
-        });
-    }
-    
-    if (insights.length === 0) {
-        insights.push({
-            type: 'info',
-            icon: '',
-            text: `<strong>الأداء العام مستقر ومقبول.</strong>`
-        });
-    }
-    
-    return `
-        <div class="insights-panel" style="margin-top: 24px;">
-            <h3>الملاحظات والتوصيات</h3>
-            <div class="insights-list">
-                ${insights.map(ins => `
-                    <div class="insight-item ${ins.type}">
-                        <div class="text">${ins.text}</div>
-                    </div>
-                `).join('')}
-            </div>
-        </div>
-    `;
 }
 
 // ======== CHARTS ========
@@ -2096,7 +2076,7 @@ function renderCharts(h, p) {
             data: {
                 labels,
                 datasets: [{
-                    label: 'عدد العينات',
+                    label: 'عدد الاختبارات',
                     data: p.histogram,
                     backgroundColor: colors,
                     borderRadius: 3,
@@ -2117,7 +2097,7 @@ function renderCharts(h, p) {
                         padding: 10,
                         callbacks: {
                             title: items => `الفئة: ${items[0].label} دقيقة`,
-                            label: ctx => `${ctx.parsed.y} عينة`
+                            label: ctx => `${ctx.parsed.y} اختبار`
                         }
                     }
                 },
@@ -2134,66 +2114,6 @@ function renderCharts(h, p) {
             }
         });
     }
-    
-    if (p.dates.length > 1) {
-        const trendCanvas = document.getElementById(`chart-trend-${h}`);
-        if (trendCanvas) {
-            if (STATE.charts[`trend-${h}`]) STATE.charts[`trend-${h}`].destroy();
-            STATE.charts[`trend-${h}`] = new Chart(trendCanvas, {
-                type: 'line',
-                data: {
-                    labels: p.dates.map(d => d.date),
-                    datasets: [
-                        {
-                            label: 'التزام الطلب للنتيجة OTC %',
-                            data: p.dates.map(d => d.compliance_otc.toFixed(1)),
-                            borderColor: '#3B82F6',
-                            backgroundColor: 'rgba(59,130,246,0.1)',
-                            tension: 0.3,
-                            fill: false,
-                            pointRadius: 5,
-                            borderWidth: 2.5
-                        },
-                        {
-                            label: 'التزام الاستقبال للنتيجة RTC %',
-                            data: p.dates.map(d => d.compliance_rtc.toFixed(1)),
-                            borderColor: '#10B981',
-                            backgroundColor: 'rgba(16,185,129,0.1)',
-                            tension: 0.3,
-                            fill: false,
-                            pointRadius: 5,
-                            borderWidth: 2.5
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: { boxWidth: 12, padding: 12, font: { size: 11 } }
-                        },
-                        tooltip: {
-                            backgroundColor: '#0C111E',
-                            borderColor: '#10B981',
-                            borderWidth: 1,
-                            padding: 10
-                        }
-                    },
-                    scales: {
-                        x: { grid: { color: 'rgba(255,255,255,0.04)' } },
-                        y: { 
-                            min: 0,
-                            max: 100,
-                            grid: { color: 'rgba(255,255,255,0.04)' },
-                            title: { display: true, text: 'نسبة الالتزام %', color: '#6B7388' }
-                        }
-                    }
-                }
-            });
-        }
-    }
 }
 
 // ======== EXPORT ALL HOSPITALS (LONG DASHBOARD) ========
@@ -2209,7 +2129,6 @@ async function exportAllDash() {
     const actionButtons = dashboardArea.querySelectorAll('.hospital-actions');
     actionButtons.forEach(btn => btn.style.display = 'none');
     
-    // Fix scroll issues for html2canvas
     const oldPos = dashboardArea.style.position;
     dashboardArea.style.position = 'relative';
     window.scrollTo(0,0);
@@ -2243,7 +2162,7 @@ async function exportAllDash() {
     }
 }
 
-// ======== EXPORT SINGLE SLIDE (HIDDEN) ========
+// ======== EXPORT SINGLE SLIDE (16:9 - 1920x1080) ========
 async function exportSlide(h) {
     const p = STATE.processed[h];
     if (!p || p.empty) {
@@ -2264,11 +2183,17 @@ async function exportSlide(h) {
         ? `${p.dates[0].date} → ${p.dates[p.dates.length-1].date}` 
         : (p.dates[0]?.date || '--');
     
-    const compColor = (val) => {
+    const compColor = (val, reverse = false) => {
         if (val === null) return '#F59E0B';
-        if (val >= 80) return '#10B981';
-        if (val >= 60) return '#F59E0B';
-        return '#EF4444';
+        if (reverse) {
+            if (val <= 10) return '#10B981';
+            if (val <= 12) return '#F59E0B';
+            return '#EF4444';
+        } else {
+            if (val >= 80) return '#10B981';
+            if (val >= 60) return '#F59E0B';
+            return '#EF4444';
+        }
     };
     
     const accentColors = { kfh: '#3B82F6', kgh: '#10B981', kmc: '#8B5CF6', ohud: '#F59E0B' };
@@ -2286,37 +2211,44 @@ async function exportSlide(h) {
             </div>
             <div class="slide-meta">
                 <div class="date-big" style="direction: ltr;">${dateRange}</div>
-                <div>${p.completed.toLocaleString('en')} اختبار مكتمل • ${p.rejected.toLocaleString('en')} مرفوضة</div>
+                <div>${p.completed.toLocaleString('en')} اختبار مكتمل • ${p.rejected.toLocaleString('en')} عينة مرفوضة</div>
             </div>
         </div>
         
-        <div class="slide-kpi-row">
+        <div class="slide-kpi-row" style="grid-template-columns: repeat(5, 1fr);">
+            <div class="slide-kpi promise" style="border-color:#3B82F6;">
+                <div class="indicator" style="background:${compColor(o.tests_per_patient, true)};box-shadow:0 0 8px ${compColor(o.tests_per_patient, true)};"></div>
+                <div class="label" style="color: #3B82F6;">الوعد التنفيذي</div>
+                <div class="value">${fmt(o.tests_per_patient)}<span style="font-size:20px;color:#6B7388;"> فحص/مريض</span></div>
+                <div class="target">إجمالي ${o.total_patients.toLocaleString('en')} مريض</div>
+            </div>
+            
             <div class="slide-kpi flagship" style="border-color:${compColor(o.compliance_otc)}">
                 <div class="indicator" style="background:${compColor(o.compliance_otc)};box-shadow:0 0 8px ${compColor(o.compliance_otc)};"></div>
-                <div class="label">التزام الطلب للنتيجة OTC</div>
-                <div class="value">${fmt(o.compliance_otc)}<span style="font-size:16px;color:#6B7388;">%</span></div>
-                <div class="target">المستهدف ٦٠ د • متوسط ${fmt(o.otc)}د</div>
+                <div class="label">التزام الطلب للنتيجة</div>
+                <div class="value">${fmt(o.compliance_otc)}<span style="font-size:24px;color:#6B7388;">%</span></div>
+                <div class="target">الهدف ٦٠ دقيقة</div>
             </div>
             
             <div class="slide-kpi flagship" style="border-color:${compColor(o.compliance_rtc)}">
                 <div class="indicator" style="background:${compColor(o.compliance_rtc)};box-shadow:0 0 8px ${compColor(o.compliance_rtc)};"></div>
-                <div class="label">التزام الاستقبال للنتيجة RTC</div>
-                <div class="value">${fmt(o.compliance_rtc)}<span style="font-size:16px;color:#6B7388;">%</span></div>
-                <div class="target">المستهدف ٣٥ د • متوسط ${fmt(o.rtc)}د</div>
+                <div class="label">التزام الاستقبال للنتيجة</div>
+                <div class="value">${fmt(o.compliance_rtc)}<span style="font-size:24px;color:#6B7388;">%</span></div>
+                <div class="target">الهدف ٣٥ دقيقة</div>
             </div>
             
             <div class="slide-kpi alert">
                 <div class="indicator" style="background:#EF4444;"></div>
-                <div class="label">العينات المتأخرة</div>
-                <div class="value" style="color:#EF4444;">${o.out_of_target_samples.toLocaleString('en')}</div>
-                <div class="target">عينة فريدة تأخرت في أي مؤشر</div>
+                <div class="label">متأخرة الطلب للنتيجة</div>
+                <div class="value" style="color:#EF4444;">${o.delayed_otc_samples.toLocaleString('en')}</div>
+                <div class="target">عينة فريدة تجاوزت ٦٠د</div>
             </div>
 
-            <div class="slide-kpi">
-                <div class="indicator" style="background:#10B981;"></div>
-                <div class="label">وسيط RTC (Median)</div>
-                <div class="value">${fmt(o.rtc_median)}<span style="font-size:14px;color:#6B7388;"> د</span></div>
-                <div class="target">الوسيط للاستقبال للنتيجة</div>
+            <div class="slide-kpi alert">
+                <div class="indicator" style="background:#EF4444;"></div>
+                <div class="label">متأخرة الاستقبال للنتيجة</div>
+                <div class="value" style="color:#EF4444;">${o.delayed_rtc_samples.toLocaleString('en')}</div>
+                <div class="target">عينة فريدة تجاوزت ٣٥د</div>
             </div>
         </div>
         
@@ -2331,11 +2263,11 @@ async function exportSlide(h) {
                             <div class="slide-shift">
                                 <div class="name">${lbl.ar}</div>
                                 <div class="val-row">
-                                    <span class="lbl">التزام OTC</span>
+                                    <span class="lbl">التزام (الطلب للنتيجة)</span>
                                     <span style="font-weight:900; color:${compColor(sd.compliance_otc)}">${fmt(sd.compliance_otc)}%</span>
                                 </div>
                                 <div class="val-row" style="border:none; padding:0; margin:0;">
-                                    <span class="lbl">التزام RTC</span>
+                                    <span class="lbl">التزام (الاستقبال للنتيجة)</span>
                                     <span style="font-weight:900; color:${compColor(sd.compliance_rtc)}">${fmt(sd.compliance_rtc)}%</span>
                                 </div>
                             </div>
@@ -2355,10 +2287,10 @@ async function exportSlide(h) {
     
     try {
         const canvas = await html2canvas(slide, {
-            width: 1280,
-            height: 720,
+            width: 1920,
+            height: 1080,
             backgroundColor: '#0A0E1A',
-            scale: 2,
+            scale: 1,
             logging: false
         });
         
@@ -2379,7 +2311,7 @@ async function exportSlide(h) {
     }
 }
 
-// ======== EXPORT COMPARISON SLIDE ========
+// ======== EXPORT COMPARISON SLIDE (16:9 - 1920x1080) ========
 async function exportComparisonSlide() {
     const valid = Object.entries(STATE.processed).filter(([h, p]) => p && !p.empty);
     if (valid.length === 0) {
@@ -2396,13 +2328,11 @@ async function exportComparisonSlide() {
     const fmt = v => v === null ? '--' : v.toFixed(1);
     
     const slide = document.getElementById('compareExport');
-    slide.style.setProperty('--hospital-accent', '#8B5CF6'); // Violet for comparison
+    slide.style.setProperty('--hospital-accent', '#8B5CF6'); 
     
-    // Generate bars HTML
     let otcHtml = '';
     let rtcHtml = '';
     
-    // Sort by compliance descending
     const sortedByOtc = [...valid].sort((a, b) => b[1].overall.compliance_otc - a[1].overall.compliance_otc);
     const sortedByRtc = [...valid].sort((a, b) => b[1].overall.compliance_rtc - a[1].overall.compliance_rtc);
     
@@ -2453,13 +2383,13 @@ async function exportComparisonSlide() {
             </div>
         </div>
         
-        <div class="slide-content-grid" style="grid-template-columns: 1fr 1fr; margin-top: 40px;">
-            <div class="slide-panel" style="padding: 30px;">
-                <h3 style="font-size: 18px; margin-bottom: 24px; color: var(--accent-blue);">التزام (الطلب للنتيجة OTC) <= 60 دقيقة</h3>
+        <div class="slide-content-grid" style="grid-template-columns: 1fr 1fr; margin-top: 40px; gap: 45px;">
+            <div class="slide-panel" style="padding: 45px;">
+                <h3 style="font-size: 24px; margin-bottom: 30px; color: var(--accent-blue);">التزام (الطلب إلى النتيجة) <= 60 دقيقة</h3>
                 ${otcHtml}
             </div>
-            <div class="slide-panel" style="padding: 30px;">
-                <h3 style="font-size: 18px; margin-bottom: 24px; color: var(--accent-emerald);">التزام (الاستقبال للنتيجة RTC) <= 35 دقيقة</h3>
+            <div class="slide-panel" style="padding: 45px;">
+                <h3 style="font-size: 24px; margin-bottom: 30px; color: var(--accent-emerald);">التزام (الاستقبال إلى النتيجة) <= 35 دقيقة</h3>
                 ${rtcHtml}
             </div>
         </div>
@@ -2474,10 +2404,10 @@ async function exportComparisonSlide() {
     
     try {
         const canvas = await html2canvas(slide, {
-            width: 1280,
-            height: 720,
+            width: 1920,
+            height: 1080,
             backgroundColor: '#0A0E1A',
-            scale: 2,
+            scale: 1,
             logging: false
         });
         
