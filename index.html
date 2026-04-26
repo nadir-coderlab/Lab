@@ -51,6 +51,7 @@ if (typeof XLSX === 'undefined') {
     --gradient-amber: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
     --gradient-rose: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
     --gradient-blue: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+    --gradient-violet: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
     
     --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
@@ -248,18 +249,6 @@ body {
     font-weight: 500;
 }
 
-.hospital-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    background: var(--bg-card-elevated);
-    border: 1px solid var(--border-subtle);
-}
-
 .upload-input-wrap {
     position: relative;
 }
@@ -349,6 +338,7 @@ body {
 .actions-buttons {
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .btn {
@@ -365,29 +355,21 @@ body {
     transition: all 0.2s;
 }
 
-.btn-primary {
-    background: var(--gradient-emerald);
-    color: white;
-}
-
+.btn-primary { background: var(--gradient-emerald); color: white; }
 .btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--shadow-glow); }
 .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
-.btn-secondary {
-    background: var(--bg-card-elevated);
-    color: var(--text-primary);
-    border: 1px solid var(--border-medium);
-}
-
+.btn-secondary { background: var(--bg-card-elevated); color: var(--text-primary); border: 1px solid var(--border-medium); }
 .btn-secondary:hover:not(:disabled) { background: var(--bg-input); border-color: var(--border-strong); }
 .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
 
-.btn-accent {
-    background: var(--gradient-blue);
-    color: white;
-}
+.btn-accent { background: var(--gradient-blue); color: white; }
 .btn-accent:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 0 20px rgba(59,130,246,0.3); }
 .btn-accent:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-compare { background: var(--gradient-violet); color: white; }
+.btn-compare:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 0 20px rgba(139,92,246,0.3); }
+.btn-compare:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* ======== EMPTY STATE ======== */
 .empty-state {
@@ -606,7 +588,7 @@ body {
 /* ======== KPI ROW ======== */
 .kpi-row {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 14px;
     margin-bottom: 28px;
 }
@@ -615,13 +597,13 @@ body {
     background: var(--bg-card-elevated);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
-    padding: 18px;
+    padding: 16px;
     position: relative;
     overflow: hidden;
 }
 
 .kpi-tile.flagship {
-    background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(15,21,36,0.4));
+    background: linear-gradient(135deg, rgba(16,185,129,0.06), rgba(15,21,36,0.4));
     border-color: var(--accent-emerald);
 }
 
@@ -640,7 +622,7 @@ body {
 }
 
 .kpi-tile .kpi-value {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 900;
     font-family: 'Cairo', sans-serif;
     color: var(--text-primary);
@@ -688,7 +670,7 @@ body {
 /* ======== ANALYSIS GRID ======== */
 .analysis-grid {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1fr;
     gap: 20px;
     margin-bottom: 24px;
 }
@@ -728,47 +710,6 @@ body {
 
 .chart-container.tall { height: 320px; }
 
-/* ======== DISTRIBUTION BARS ======== */
-.dist-list { display: flex; flex-direction: column; gap: 14px; }
-
-.dist-item {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.dist-label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-}
-
-.dist-label .name { color: var(--text-secondary); font-weight: 600; }
-.dist-label .count {
-    color: var(--text-primary);
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-}
-
-.dist-bar {
-    height: 8px;
-    background: var(--bg-input);
-    border-radius: 100px;
-    overflow: hidden;
-    position: relative;
-}
-
-.dist-bar-fill {
-    height: 100%;
-    border-radius: 100px;
-    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.dist-bar-fill.tier-1 { background: linear-gradient(90deg, #10B981, #34D399); }
-.dist-bar-fill.tier-2 { background: linear-gradient(90deg, #F59E0B, #FBBF24); }
-.dist-bar-fill.tier-3 { background: linear-gradient(90deg, #F97316, #FB923C); }
-.dist-bar-fill.tier-4 { background: linear-gradient(90deg, #EF4444, #F87171); }
 
 /* ======== SHIFTS ======== */
 .shifts-grid {
@@ -1044,7 +985,7 @@ body {
 
 .slide-content-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 20px;
 }
 
@@ -1066,71 +1007,36 @@ body {
 .slide-shifts {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    gap: 12px;
 }
 
 .slide-shift {
     background: var(--bg-input);
     border-radius: 8px;
-    padding: 12px;
+    padding: 16px;
     text-align: center;
 }
 
 .slide-shift .name {
     font-family: 'Cairo', sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
 }
 
-.slide-shift .val {
-    font-family: 'Cairo', sans-serif;
-    font-size: 22px;
-    font-weight: 900;
-    line-height: 1;
+.slide-shift .val-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-subtle);
 }
 
 .slide-shift .lbl {
-    font-size: 10px;
-    color: var(--text-tertiary);
-    margin-top: 4px;
-    font-family: 'JetBrains Mono', monospace;
-}
-
-.slide-shift.over .val { color: var(--accent-rose); }
-.slide-shift.under .val { color: var(--accent-emerald); }
-
-.slide-dist-list { display: flex; flex-direction: column; gap: 9px; }
-
-.slide-dist-row {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.slide-dist-row .head {
-    display: flex;
-    justify-content: space-between;
     font-size: 11px;
-}
-
-.slide-dist-row .head .nm { color: var(--text-secondary); font-weight: 600; }
-.slide-dist-row .head .ct {
-    color: var(--text-primary);
+    color: var(--text-tertiary);
     font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-}
-
-.slide-dist-row .bar {
-    height: 6px;
-    background: var(--bg-input);
-    border-radius: 100px;
-    overflow: hidden;
-}
-
-.slide-dist-row .bar > div {
-    height: 100%;
-    border-radius: 100px;
 }
 
 .slide-footer {
@@ -1148,6 +1054,43 @@ body {
 }
 
 .slide-footer .left { font-family: 'JetBrains Mono', monospace; }
+
+/* Compare bars */
+.compare-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.compare-label {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+}
+.compare-bar-wrap {
+    height: 36px;
+    background: var(--bg-input);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+.compare-bar-fill {
+    height: 100%;
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    border-radius: 6px;
+}
+.compare-bar-text {
+    position: relative;
+    z-index: 10;
+    padding: 0 12px;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+}
 
 /* ======== LOADING ======== */
 .loading-overlay {
@@ -1186,7 +1129,7 @@ body {
 @media (max-width: 1280px) {
     .upload-grid { grid-template-columns: repeat(2, 1fr); }
     .exec-grid { grid-template-columns: repeat(2, 1fr); }
-    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .kpi-row { grid-template-columns: repeat(3, 1fr); }
     .analysis-grid { grid-template-columns: 1fr; }
 }
 
@@ -1304,7 +1247,7 @@ body {
                 <span class="value" id="filesCount">٠ / ٤</span>
             </div>
             <div class="info-stat">
-                <span class="label">إجمالي عينات ER</span>
+                <span class="label">إجمالي العينات المكتملة</span>
                 <span class="value" id="totalSamples">--</span>
             </div>
             <div class="info-stat">
@@ -1317,7 +1260,8 @@ body {
             </div>
         </div>
         <div class="actions-buttons">
-            <button class="btn btn-accent" id="btnExportAll" disabled>تصدير الكل (صورة)</button>
+            <button class="btn btn-compare" id="btnExportCompare" disabled>تصدير شريحة المقارنة</button>
+            <button class="btn btn-accent" id="btnExportAll" disabled>تصدير الكل (صورة طويلة)</button>
             <button class="btn btn-secondary" id="btnReset">إعادة تعيين</button>
             <button class="btn btn-primary" id="btnAnalyze" disabled>تحليل البيانات</button>
         </div>
@@ -1356,6 +1300,7 @@ body {
 
 <!-- HIDDEN SLIDE EXPORT -->
 <div class="slide-export" id="slideExport"></div>
+<div class="slide-export" id="compareExport"></div>
 
 <script>
 // ======== STATE ========
@@ -1394,6 +1339,7 @@ function init() {
     document.getElementById('btnAnalyze').addEventListener('click', analyzeAll);
     document.getElementById('btnReset').addEventListener('click', resetAll);
     document.getElementById('btnExportAll').addEventListener('click', exportAllDash);
+    document.getElementById('btnExportCompare').addEventListener('click', exportComparisonSlide);
 }
 
 // ======== FILE UPLOAD ========
@@ -1405,7 +1351,6 @@ function handleUpload(e) {
     const card = document.querySelector(`.upload-card[data-hospital="${hospital}"]`);
     const statusEl = document.querySelector(`.upload-status[data-status="${hospital}"]`);
     
-    // Verify XLSX loaded
     if (typeof XLSX === 'undefined') {
         statusEl.textContent = 'خطأ: مكتبة Excel لم تُحمّل. تحقق من الاتصال بالإنترنت وأعد تحميل الصفحة.';
         statusEl.className = 'upload-status error';
@@ -1429,7 +1374,6 @@ function handleUpload(e) {
             
             const ws = wb.Sheets[wb.SheetNames[0]];
             
-            // Fix !ref if corrupted
             if (ws['!ref']) {
                 let maxRow = 0, maxCol = 0;
                 Object.keys(ws).forEach(key => {
@@ -1452,7 +1396,6 @@ function handleUpload(e) {
                 blankrows: false
             });
             
-            // Fallback to array-of-arrays reading
             if (json.length === 0) {
                 const aoa = XLSX.utils.sheet_to_json(ws, { header: 1, defval: null, raw: false, dateNF: 'yyyy-mm-dd hh:mm:ss' });
                 if (aoa.length > 1) {
@@ -1548,9 +1491,9 @@ function diffMinutes(d1, d2) {
 function getShift(date) {
     if (!date) return null;
     const totalMinutes = date.getHours() * 60 + date.getMinutes();
-    const morningStart = 7 * 60 + 30;     // 07:30
-    const afternoonStart = 15 * 60 + 30;  // 15:30
-    const nightStart = 23 * 60 + 30;      // 23:30
+    const morningStart = 7 * 60 + 30;     
+    const afternoonStart = 15 * 60 + 30;  
+    const nightStart = 23 * 60 + 30;      
     
     if (totalMinutes >= morningStart && totalMinutes < afternoonStart) return 'morning';
     if (totalMinutes >= afternoonStart && totalMinutes < nightStart) return 'afternoon';
@@ -1565,6 +1508,7 @@ const SHIFT_LABELS = {
 
 // ======== DATA NORMALIZATION ========
 function normalizeRow(row, hospital) {
+    const sId = row['Sample ID'] || row['SampleID'] || row['رقم العينة'] || '';
     if (hospital === 'kfh') {
         return {
             orderDate: parseDate(row['Order Date']),
@@ -1572,7 +1516,7 @@ function normalizeRow(row, hospital) {
             receiveDate: parseDate(row['Receive Date']),
             completeDate: parseDate(row['Complete Date']),
             patientType: (row['Patient Type'] || '').toString().trim(),
-            sampleId: row['Sample ID'],
+            sampleId: sId.toString().trim(),
             testName: row['ExamName'],
             category: row['Category'],
             status: row['Complete Date'] ? 'Released' : 'Pending',
@@ -1586,7 +1530,7 @@ function normalizeRow(row, hospital) {
             receiveDate: parseDate(row['Date and Time Of Receiving in lab']),
             completeDate: parseDate(row['Date and time result sent back to reauester']),
             patientType: (row['Patient Type'] || '').toString().trim(),
-            sampleId: row['SampleID'],
+            sampleId: sId.toString().trim(),
             testName: row['Test Name'],
             category: row['Lab Section'],
             status: status,
@@ -1636,8 +1580,9 @@ function processHospital(hospital) {
         const ctr = diffMinutes(r.collectDate, r.receiveDate);
         const rtc = diffMinutes(r.receiveDate, r.completeDate);
         const shift = getShift(r.orderDate);
-        const isCompliant = (otc !== null && otc <= TARGET_OTC) && (rtc !== null && rtc <= TARGET_RTC);
-        const outOfTarget = (otc !== null && otc > TARGET_OTC) || (rtc !== null && rtc > TARGET_RTC);
+        const isCompliantOtc = otc !== null && otc <= TARGET_OTC;
+        const isCompliantRtc = rtc !== null && rtc <= TARGET_RTC;
+        const outOfTarget = !isCompliantOtc || !isCompliantRtc;
 
         return {
             ...r,
@@ -1646,7 +1591,8 @@ function processHospital(hospital) {
             ctr: ctr !== null && ctr >= 0 ? ctr : null,
             rtc: rtc !== null && rtc >= 0 ? rtc : null,
             shift,
-            isCompliant,
+            isCompliantOtc,
+            isCompliantRtc,
             outOfTarget,
             dateKey: r.orderDate ? r.orderDate.toISOString().slice(0, 10) : null
         };
@@ -1664,6 +1610,12 @@ function processHospital(hospital) {
         const m = Math.floor(valid.length / 2);
         return valid.length % 2 ? valid[m] : (valid[m-1] + valid[m]) / 2;
     };
+
+    // Calculate out of target samples (Unique)
+    const outOfTargetTimings = timings.filter(t => t.outOfTarget);
+    const uniqueSampleIdsOut = new Set(outOfTargetTimings.map(t => t.sampleId).filter(id => id !== ''));
+    const missingIdOut = outOfTargetTimings.filter(t => !t.sampleId || t.sampleId === '').length;
+    const finalOutSamplesCount = uniqueSampleIdsOut.size + missingIdOut;
     
     const overall = {
         otc: avg(timings, 'otc'),
@@ -1672,17 +1624,9 @@ function processHospital(hospital) {
         ctr: avg(timings, 'ctr'),
         rtc: avg(timings, 'rtc'),
         rtc_median: median(timings, 'rtc'),
-        compliance_otc: timings.filter(t => t.otc <= TARGET_OTC).length / timings.length * 100,
-        compliance_rtc: timings.filter(t => t.rtc <= TARGET_RTC).length / timings.length * 100,
-        compliance_overall: timings.filter(t => t.isCompliant).length / timings.length * 100,
-        out_of_target: timings.filter(t => t.outOfTarget).length
-    };
-    
-    const rtcBuckets = {
-        b1: timings.filter(t => t.rtc <= 35).length,
-        b2: timings.filter(t => t.rtc > 35 && t.rtc <= 60).length,
-        b3: timings.filter(t => t.rtc > 60 && t.rtc <= 90).length,
-        b4: timings.filter(t => t.rtc > 90).length
+        compliance_otc: timings.filter(t => t.isCompliantOtc).length / timings.length * 100,
+        compliance_rtc: timings.filter(t => t.isCompliantRtc).length / timings.length * 100,
+        out_of_target_samples: finalOutSamplesCount
     };
     
     const byShift = {};
@@ -1692,8 +1636,8 @@ function processHospital(hospital) {
             count: subset.length,
             otc: avg(subset, 'otc'),
             rtc: avg(subset, 'rtc'),
-            compliance_rtc: subset.length ? subset.filter(t => t.rtc <= TARGET_RTC).length / subset.length * 100 : 0,
-            compliance_overall: subset.length ? subset.filter(t => t.isCompliant).length / subset.length * 100 : 0
+            compliance_otc: subset.length ? subset.filter(t => t.isCompliantOtc).length / subset.length * 100 : 0,
+            compliance_rtc: subset.length ? subset.filter(t => t.isCompliantRtc).length / subset.length * 100 : 0
         };
     });
     
@@ -1701,14 +1645,13 @@ function processHospital(hospital) {
     timings.forEach(t => {
         if (!t.dateKey) return;
         if (!byDate[t.dateKey]) {
-            byDate[t.dateKey] = { count: 0, otcSum: 0, rtcSum: 0, otcOnTarget: 0, rtcOnTarget: 0, compliantBoth: 0 };
+            byDate[t.dateKey] = { count: 0, otcSum: 0, rtcSum: 0, otcOnTarget: 0, rtcOnTarget: 0 };
         }
         byDate[t.dateKey].count++;
         byDate[t.dateKey].otcSum += t.otc;
         byDate[t.dateKey].rtcSum += t.rtc;
-        if (t.otc <= TARGET_OTC) byDate[t.dateKey].otcOnTarget++;
-        if (t.rtc <= TARGET_RTC) byDate[t.dateKey].rtcOnTarget++;
-        if (t.isCompliant) byDate[t.dateKey].compliantBoth++;
+        if (t.isCompliantOtc) byDate[t.dateKey].otcOnTarget++;
+        if (t.isCompliantRtc) byDate[t.dateKey].rtcOnTarget++;
     });
     
     const dates = Object.keys(byDate).sort().map(d => ({
@@ -1717,8 +1660,7 @@ function processHospital(hospital) {
         otc: byDate[d].otcSum / byDate[d].count,
         rtc: byDate[d].rtcSum / byDate[d].count,
         compliance_otc: byDate[d].otcOnTarget / byDate[d].count * 100,
-        compliance_rtc: byDate[d].rtcOnTarget / byDate[d].count * 100,
-        compliance_overall: byDate[d].compliantBoth / byDate[d].count * 100
+        compliance_rtc: byDate[d].rtcOnTarget / byDate[d].count * 100
     }));
     
     const histogram = new Array(25).fill(0);
@@ -1733,7 +1675,6 @@ function processHospital(hospital) {
         completed: timings.length,
         rejected: rejectedCount,
         overall,
-        rtcBuckets,
         byShift,
         dates,
         histogram,
@@ -1759,6 +1700,7 @@ async function analyzeAll() {
     document.getElementById('emptyState').style.display = 'none';
     document.getElementById('resultsSection').classList.add('active');
     document.getElementById('btnExportAll').disabled = false;
+    document.getElementById('btnExportCompare').disabled = false;
     
     renderExecSummary();
     renderHospitals();
@@ -1781,9 +1723,9 @@ function renderExecSummary() {
     const totalCompleted = valid.reduce((s, p) => s + p.completed, 0);
     const totalER = valid.reduce((s, p) => s + p.total, 0);
     const totalRejected = valid.reduce((s, p) => s + p.rejected, 0);
-    const totalOutOfTarget = valid.reduce((s, p) => s + p.overall.out_of_target, 0);
+    const totalOutOfTargetSamples = valid.reduce((s, p) => s + p.overall.out_of_target_samples, 0);
     
-    document.getElementById('totalSamples').textContent = totalER.toLocaleString('en');
+    document.getElementById('totalSamples').textContent = totalCompleted.toLocaleString('en');
     
     const weightedAvg = (key) => {
         let sum = 0, count = 0;
@@ -1796,48 +1738,47 @@ function renderExecSummary() {
         return count > 0 ? sum / count : null;
     };
     
-    const avgOTC = weightedAvg('otc');
-    const avgRTC = weightedAvg('rtc');
-    const avgComplianceOverall = weightedAvg('compliance_overall');
+    const avgComplianceOTC = weightedAvg('compliance_otc');
+    const avgComplianceRTC = weightedAvg('compliance_rtc');
     
     const fmt = v => v === null ? '--' : v.toFixed(1);
     
     const allDates = valid.flatMap(p => p.dates.map(d => d.date)).sort();
     const dateRange = allDates.length ? `${allDates[0]} → ${allDates[allDates.length-1]}` : '--';
-    document.getElementById('execMeta').textContent = `${dateRange} • ${totalCompleted.toLocaleString('en')} عينة مكتملة`;
+    document.getElementById('execMeta').textContent = `${dateRange} • ${totalCompleted.toLocaleString('en')} اختبار مكتمل`;
     
     const cards = [
         {
-            label: 'مؤشر الالتزام العام (مدمج)',
-            value: fmt(avgComplianceOverall),
+            label: 'التزام الطلب للنتيجة (OTC)',
+            value: fmt(avgComplianceOTC),
             unit: '%',
-            target: 'تحقيق هدفي OTC و RTC معاً',
-            trend: avgComplianceOverall > 80 ? 'good' : (avgComplianceOverall > 60 ? 'warning' : 'bad'),
-            trendLabel: avgComplianceOverall > 80 ? 'أداء ممتاز' : (avgComplianceOverall > 60 ? 'يحتاج تحسين' : 'أداء حرج')
+            target: 'المستهدف <= ٦٠ دقيقة',
+            trend: avgComplianceOTC > 80 ? 'good' : (avgComplianceOTC > 60 ? 'warning' : 'bad'),
+            trendLabel: avgComplianceOTC > 80 ? 'أداء ممتاز' : (avgComplianceOTC > 60 ? 'يحتاج تحسين' : 'أداء حرج')
         },
         {
-            label: 'العينات خارج المؤشر',
-            value: totalOutOfTarget.toLocaleString('en'),
+            label: 'التزام الاستقبال للنتيجة (RTC)',
+            value: fmt(avgComplianceRTC),
+            unit: '%',
+            target: 'المستهدف <= ٣٥ دقيقة',
+            trend: avgComplianceRTC > 80 ? 'good' : (avgComplianceRTC > 60 ? 'warning' : 'bad'),
+            trendLabel: avgComplianceRTC > 80 ? 'أداء ممتاز' : (avgComplianceRTC > 60 ? 'يحتاج تحسين' : 'أداء حرج')
+        },
+        {
+            label: 'العينات المتأخرة (فريدة)',
+            value: totalOutOfTargetSamples.toLocaleString('en'),
             unit: 'عينة',
-            target: `تجاوزت 60 دقيقة (OTC) أو 35 دقيقة (RTC)`,
+            target: `تجاوزت أحد المؤشرين`,
             trend: 'bad',
-            trendLabel: `من أصل ${totalCompleted.toLocaleString('en')} عينة مكتملة`
+            trendLabel: `عينة برقم Sample ID`
         },
         {
-            label: 'متوسط Receive → Complete',
-            value: fmt(avgRTC),
-            unit: 'دقيقة',
-            target: `المستهدف: ${TARGET_RTC} دقيقة`,
-            trend: avgRTC ? (avgRTC <= TARGET_RTC ? 'good' : 'bad') : 'neutral',
-            trendLabel: avgRTC ? (avgRTC <= TARGET_RTC ? 'ضمن الهدف' : `+${(avgRTC - TARGET_RTC).toFixed(1)} فوق الهدف`) : '--'
-        },
-        {
-            label: 'متوسط Order → Complete',
-            value: fmt(avgOTC),
-            unit: 'دقيقة',
-            target: `المستهدف: ${TARGET_OTC} دقيقة`,
-            trend: avgOTC ? (avgOTC <= TARGET_OTC ? 'good' : 'bad') : 'neutral',
-            trendLabel: avgOTC ? (avgOTC <= TARGET_OTC ? 'ضمن الهدف' : `+${(avgOTC - TARGET_OTC).toFixed(1)} فوق الهدف`) : '--'
+            label: 'العينات المرفوضة',
+            value: totalRejected.toLocaleString('en'),
+            unit: 'عينة',
+            target: `تم رفضها أو تعليقها`,
+            trend: 'neutral',
+            trendLabel: `من أصل ${totalER.toLocaleString('en')} عينة ER`
         }
     ];
     
@@ -1895,29 +1836,18 @@ function createHospitalCard(h, p) {
     const fmt = v => v === null ? '--' : v.toFixed(1);
     const o = p.overall;
     
-    const statusClass = (val, target) => {
-        if (val === null) return 'amber';
-        if (val <= target) return 'green';
-        if (val <= target * 1.3) return 'amber';
-        return 'red';
-    };
-    
     const compClass = (val) => {
         if (val >= 80) return 'green';
         if (val >= 60) return 'amber';
         return 'red';
     };
     
-    const dist = p.rtcBuckets;
-    const total = dist.b1 + dist.b2 + dist.b3 + dist.b4;
-    const pct = (n) => total > 0 ? (n / total * 100).toFixed(1) : '0';
-    
     div.innerHTML = `
         <div class="hospital-header">
             <div class="hospital-title">
                 <div>
                     <h2>${HOSPITAL_NAMES[h]}</h2>
-                    <div class="lab-tag">${HOSPITAL_ENG[h]} • ${p.completed.toLocaleString('en')} عينة مكتملة</div>
+                    <div class="lab-tag">${HOSPITAL_ENG[h]} • ${p.completed.toLocaleString('en')} اختبار مكتمل</div>
                 </div>
             </div>
             <div class="hospital-actions">
@@ -1929,29 +1859,40 @@ function createHospitalCard(h, p) {
             <!-- KPI ROW -->
             <div class="kpi-row">
                 <div class="kpi-tile flagship">
-                    <div class="kpi-status ${compClass(o.compliance_overall)}"></div>
-                    <div class="kpi-label">الالتزام العام (مدمج)</div>
-                    <div class="kpi-value">${fmt(o.compliance_overall)}<span style="font-size:16px;color:var(--text-tertiary);">%</span></div>
-                    <div class="kpi-target">تحقيق هدفي (OTC 60) و (RTC 35) معاً</div>
-                    <div class="kpi-bar"><div class="kpi-bar-fill ${compClass(o.compliance_overall)}" style="width: ${Math.min(100, o.compliance_overall)}%"></div></div>
+                    <div class="kpi-status ${compClass(o.compliance_otc)}"></div>
+                    <div class="kpi-label">التزام الطلب للنتيجة OTC</div>
+                    <div class="kpi-value">${fmt(o.compliance_otc)}<span style="font-size:16px;color:var(--text-tertiary);">%</span></div>
+                    <div class="kpi-target">الهدف: ${TARGET_OTC} دقيقة • المتوسط: ${fmt(o.otc)}د</div>
+                    <div class="kpi-bar"><div class="kpi-bar-fill ${compClass(o.compliance_otc)}" style="width: ${Math.min(100, o.compliance_otc)}%"></div></div>
                 </div>
+                
+                <div class="kpi-tile flagship">
+                    <div class="kpi-status ${compClass(o.compliance_rtc)}"></div>
+                    <div class="kpi-label">التزام الاستقبال للنتيجة RTC</div>
+                    <div class="kpi-value">${fmt(o.compliance_rtc)}<span style="font-size:16px;color:var(--text-tertiary);">%</span></div>
+                    <div class="kpi-target">الهدف: ${TARGET_RTC} دقيقة • المتوسط: ${fmt(o.rtc)}د</div>
+                    <div class="kpi-bar"><div class="kpi-bar-fill ${compClass(o.compliance_rtc)}" style="width: ${Math.min(100, o.compliance_rtc)}%"></div></div>
+                </div>
+
                 <div class="kpi-tile alert">
                     <div class="kpi-status red" style="box-shadow: none;"></div>
-                    <div class="kpi-label">خارج المؤشر</div>
-                    <div class="kpi-value" style="color: var(--accent-rose);">${o.out_of_target.toLocaleString('en')}</div>
-                    <div class="kpi-target">عينة تجاوزت أحد المؤشرين أو كليهما</div>
+                    <div class="kpi-label">العينات المتأخرة</div>
+                    <div class="kpi-value" style="color: var(--accent-rose);">${o.out_of_target_samples.toLocaleString('en')}</div>
+                    <div class="kpi-target">عينة فريدة تأخرت في أي مؤشر</div>
                 </div>
+                
                 <div class="kpi-tile">
-                    <div class="kpi-status ${statusClass(o.otc, TARGET_OTC)}"></div>
-                    <div class="kpi-label">متوسط Order → Complete</div>
-                    <div class="kpi-value">${fmt(o.otc)}<span style="font-size:14px;color:var(--text-tertiary);"> دقيقة</span></div>
-                    <div class="kpi-target">المستهدف: ${TARGET_OTC} دقيقة</div>
+                    <div class="kpi-status green"></div>
+                    <div class="kpi-label">متوسط Order → Collect</div>
+                    <div class="kpi-value">${fmt(o.otc_collect)}<span style="font-size:14px;color:var(--text-tertiary);"> دقيقة</span></div>
+                    <div class="kpi-target">من الطلب إلى السحب</div>
                 </div>
+
                 <div class="kpi-tile">
-                    <div class="kpi-status ${statusClass(o.rtc, TARGET_RTC)}"></div>
-                    <div class="kpi-label">متوسط Receive → Complete</div>
-                    <div class="kpi-value">${fmt(o.rtc)}<span style="font-size:14px;color:var(--text-tertiary);"> دقيقة</span></div>
-                    <div class="kpi-target">المستهدف: ${TARGET_RTC} دقيقة</div>
+                    <div class="kpi-status green"></div>
+                    <div class="kpi-label">متوسط Collect → Receive</div>
+                    <div class="kpi-value">${fmt(o.ctr)}<span style="font-size:14px;color:var(--text-tertiary);"> دقيقة</span></div>
+                    <div class="kpi-target">من السحب إلى الاستقبال</div>
                 </div>
             </div>
             
@@ -1964,50 +1905,6 @@ function createHospitalCard(h, p) {
                     </div>
                     <div class="chart-container tall">
                         <canvas id="chart-hist-${h}"></canvas>
-                    </div>
-                </div>
-                <div class="panel">
-                    <div class="panel-header">
-                        <h3>شرائح الأداء (RTC)</h3>
-                        <div class="panel-meta">دقائق</div>
-                    </div>
-                    <div class="dist-list">
-                        <div class="dist-item">
-                            <div class="dist-label">
-                                <span class="name">≤ ٣٥ دقيقة (ضمن الهدف)</span>
-                                <span class="count">${dist.b1.toLocaleString('en')} (${pct(dist.b1)}%)</span>
-                            </div>
-                            <div class="dist-bar"><div class="dist-bar-fill tier-1" style="width: ${pct(dist.b1)}%"></div></div>
-                        </div>
-                        <div class="dist-item">
-                            <div class="dist-label">
-                                <span class="name">٣٦ - ٦٠ دقيقة</span>
-                                <span class="count">${dist.b2.toLocaleString('en')} (${pct(dist.b2)}%)</span>
-                            </div>
-                            <div class="dist-bar"><div class="dist-bar-fill tier-2" style="width: ${pct(dist.b2)}%"></div></div>
-                        </div>
-                        <div class="dist-item">
-                            <div class="dist-label">
-                                <span class="name">٦١ - ٩٠ دقيقة</span>
-                                <span class="count">${dist.b3.toLocaleString('en')} (${pct(dist.b3)}%)</span>
-                            </div>
-                            <div class="dist-bar"><div class="dist-bar-fill tier-3" style="width: ${pct(dist.b3)}%"></div></div>
-                        </div>
-                        <div class="dist-item">
-                            <div class="dist-label">
-                                <span class="name">> ٩٠ دقيقة (حرج)</span>
-                                <span class="count">${dist.b4.toLocaleString('en')} (${pct(dist.b4)}%)</span>
-                            </div>
-                            <div class="dist-bar"><div class="dist-bar-fill tier-4" style="width: ${pct(dist.b4)}%"></div></div>
-                        </div>
-                    </div>
-                    <div style="margin-top: 18px; padding: 12px; background: var(--bg-input); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-tertiary); display: flex; justify-content: space-between;">
-                        <span>الوسيط (Median) لـ RTC</span>
-                        <span style="color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-weight: 700;">${fmt(o.rtc_median)} دقيقة</span>
-                    </div>
-                    <div style="margin-top: 8px; padding: 12px; background: rgba(239,68,68,0.06); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-tertiary); display: flex; justify-content: space-between;">
-                        <span>العينات المرفوضة (ER)</span>
-                        <span style="color: var(--accent-rose); font-family: 'JetBrains Mono', monospace; font-weight: 700;">${p.rejected.toLocaleString('en')} عينة</span>
                     </div>
                 </div>
             </div>
@@ -2030,16 +1927,12 @@ function createHospitalCard(h, p) {
                                     <span class="m-value">${sd.count.toLocaleString('en')}</span>
                                 </div>
                                 <div class="shift-metric">
-                                    <span class="m-label">الالتزام العام (مدمج)</span>
-                                    <span class="m-value ${sd.compliance_overall >= 70 ? 'on-target' : 'over-target'}">${fmt(sd.compliance_overall)}%</span>
+                                    <span class="m-label">التزام الطلب للنتيجة OTC</span>
+                                    <span class="m-value ${sd.compliance_otc >= 70 ? 'on-target' : 'over-target'}">${fmt(sd.compliance_otc)}%</span>
                                 </div>
                                 <div class="shift-metric">
-                                    <span class="m-label">متوسط OTC</span>
-                                    <span class="m-value ${sd.otc !== null && sd.otc <= TARGET_OTC ? 'on-target' : 'over-target'}">${fmt(sd.otc)} د</span>
-                                </div>
-                                <div class="shift-metric">
-                                    <span class="m-label">متوسط RTC</span>
-                                    <span class="m-value ${sd.rtc !== null && sd.rtc <= TARGET_RTC ? 'on-target' : 'over-target'}">${fmt(sd.rtc)} د</span>
+                                    <span class="m-label">التزام الاستقبال للنتيجة RTC</span>
+                                    <span class="m-value ${sd.compliance_rtc >= 70 ? 'on-target' : 'over-target'}">${fmt(sd.compliance_rtc)}%</span>
                                 </div>
                             </div>
                         </div>
@@ -2063,21 +1956,20 @@ function createHospitalCard(h, p) {
                                 <tr>
                                     <th>التاريخ</th>
                                     <th>العينات</th>
-                                    <th>الالتزام العام</th>
-                                    <th>OTC</th>
-                                    <th>RTC</th>
+                                    <th>التزام OTC</th>
+                                    <th>التزام RTC</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${p.dates.map(d => {
-                                    const compClass = d.compliance_overall >= 80 ? 'green' : (d.compliance_overall >= 60 ? 'amber' : 'red');
+                                    const compOtcClass = d.compliance_otc >= 80 ? 'green' : (d.compliance_otc >= 60 ? 'amber' : 'red');
+                                    const compRtcClass = d.compliance_rtc >= 80 ? 'green' : (d.compliance_rtc >= 60 ? 'amber' : 'red');
                                     return `
                                         <tr>
                                             <td style="font-family: 'JetBrains Mono', monospace; font-size: 12px; direction: ltr; text-align: right;">${d.date}</td>
                                             <td class="num">${d.count}</td>
-                                            <td><span class="pill ${compClass}">${d.compliance_overall.toFixed(0)}%</span></td>
-                                            <td class="num">${d.otc.toFixed(1)}</td>
-                                            <td class="num">${d.rtc.toFixed(1)}</td>
+                                            <td><span class="pill ${compOtcClass}">${d.compliance_otc.toFixed(0)}%</span></td>
+                                            <td><span class="pill ${compRtcClass}">${d.compliance_rtc.toFixed(0)}%</span></td>
                                         </tr>
                                     `;
                                 }).join('')}
@@ -2087,7 +1979,7 @@ function createHospitalCard(h, p) {
                     <div class="panel">
                         <div class="panel-header">
                             <h3>اتجاه الأداء عبر الأيام</h3>
-                            <div class="panel-meta">دقائق</div>
+                            <div class="panel-meta">نسبة مئوية %</div>
                         </div>
                         <div class="chart-container tall">
                             <canvas id="chart-trend-${h}"></canvas>
@@ -2110,45 +2002,29 @@ function generateInsights(h, p) {
     const insights = [];
     const o = p.overall;
     
-    // Critical: Compliance
-    if (o.compliance_overall < 50) {
+    // Critical: Compliance OTC
+    if (o.compliance_otc < 50) {
         insights.push({
             type: 'critical',
             icon: '',
-            text: `<strong>نسبة الالتزام العام متدنية (${o.compliance_overall.toFixed(1)}%)</strong> — أغلب العينات (${o.out_of_target.toLocaleString('en')} عينة) تتجاوز إما مؤشر OTC أو RTC.`
+            text: `<strong>التزام مؤشر (الطلب للنتيجة) متدني (${o.compliance_otc.toFixed(1)}%)</strong> — يجب مراجعة دورة العينة كاملة من وقت الطلب.`
         });
-    } else if (o.compliance_overall >= 80) {
+    }
+    
+    // Critical: Compliance RTC
+    if (o.compliance_rtc < 50) {
+        insights.push({
+            type: 'critical',
+            icon: '',
+            text: `<strong>التزام مؤشر (الاستقبال للنتيجة) متدني (${o.compliance_rtc.toFixed(1)}%)</strong> — التأخير يحدث داخل قسم المختبر بعد استلام العينة.`
+        });
+    }
+
+    if (o.compliance_otc >= 80 && o.compliance_rtc >= 80) {
         insights.push({
             type: 'success',
             icon: '',
-            text: `<strong>التزام عام ممتاز (${o.compliance_overall.toFixed(1)}%)</strong> — أغلبية العينات تحقق الهدفين معاً بنجاح.`
-        });
-    }
-    
-    // Critical: RTC over target
-    if (o.rtc > TARGET_RTC) {
-        const overage = o.rtc - TARGET_RTC;
-        const severity = overage > 30 ? 'critical' : (overage > 15 ? 'warning' : 'info');
-        insights.push({
-            type: severity,
-            icon: '',
-            text: `<strong>متوسط زمن الاستقبال إلى النتيجة ${o.rtc.toFixed(1)} دقيقة</strong> — يتجاوز المؤشر المستهدف (٣٥ د) بنسبة <strong>${(overage / TARGET_RTC * 100).toFixed(0)}%</strong>. الفجوة الزمنية ${overage.toFixed(1)} دقيقة لكل عينة.`
-        });
-    }
-    
-    // Worst shift
-    const shifts = ['morning','afternoon','night'];
-    const worstShift = shifts.reduce((w, s) => {
-        if (!p.byShift[s].compliance_overall) return w;
-        if (!w || p.byShift[s].compliance_overall < p.byShift[w].compliance_overall) return s;
-        return w;
-    }, null);
-    
-    if (worstShift && p.byShift[worstShift].compliance_overall < 60) {
-        insights.push({
-            type: 'warning',
-            icon: '',
-            text: `<strong>شفت ${SHIFT_LABELS[worstShift].ar} هو الأضعف في الالتزام</strong> — الالتزام العام ${p.byShift[worstShift].compliance_overall.toFixed(0)}% فقط من ${p.byShift[worstShift].count.toLocaleString('en')} عينة.`
+            text: `<strong>التزام ممتاز في جميع المؤشرات</strong> — استمر في الحفاظ على المستوى الحالي.`
         });
     }
     
@@ -2167,11 +2043,11 @@ function generateInsights(h, p) {
     // Pre-receive bottleneck
     const preReceive = (o.otc_collect || 0) + (o.ctr || 0);
     const otcGap = o.otc - preReceive - o.rtc;
-    if (Math.abs(otcGap) < 5 && preReceive > 25) {
+    if (Math.abs(otcGap) < 5 && preReceive > 25 && o.rtc <= TARGET_RTC) {
         insights.push({
             type: 'info',
             icon: '',
-            text: `<strong>الزمن قبل الاستقبال (${preReceive.toFixed(1)} د) يمثل ${(preReceive / o.otc * 100).toFixed(0)}% من إجمالي الـ TAT</strong> — تحسينات السحب والنقل قد تكون ذات أثر مماثل لتحسينات المختبر.`
+            text: `<strong>المختبر يحقق الهدف، التأخير في النقل!</strong> الزمن قبل الاستقبال (${preReceive.toFixed(1)} دقيقة) يمثل الجزء الأكبر من التأخير، بينما أداء المختبر الداخلي سليم.`
         });
     }
     
@@ -2179,7 +2055,7 @@ function generateInsights(h, p) {
         insights.push({
             type: 'info',
             icon: '',
-            text: `<strong>الأداء العام مستقر.</strong>`
+            text: `<strong>الأداء العام مستقر ومقبول.</strong>`
         });
     }
     
@@ -2269,44 +2145,24 @@ function renderCharts(h, p) {
                     labels: p.dates.map(d => d.date),
                     datasets: [
                         {
-                            label: 'OTC (Order→Complete)',
-                            data: p.dates.map(d => d.otc.toFixed(1)),
+                            label: 'التزام الطلب للنتيجة OTC %',
+                            data: p.dates.map(d => d.compliance_otc.toFixed(1)),
                             borderColor: '#3B82F6',
                             backgroundColor: 'rgba(59,130,246,0.1)',
                             tension: 0.3,
                             fill: false,
                             pointRadius: 5,
-                            pointHoverRadius: 7,
                             borderWidth: 2.5
                         },
                         {
-                            label: 'RTC (Receive→Complete)',
-                            data: p.dates.map(d => d.rtc.toFixed(1)),
+                            label: 'التزام الاستقبال للنتيجة RTC %',
+                            data: p.dates.map(d => d.compliance_rtc.toFixed(1)),
                             borderColor: '#10B981',
                             backgroundColor: 'rgba(16,185,129,0.1)',
                             tension: 0.3,
-                            fill: true,
+                            fill: false,
                             pointRadius: 5,
-                            pointHoverRadius: 7,
                             borderWidth: 2.5
-                        },
-                        {
-                            label: 'مؤشر RTC (٣٥)',
-                            data: p.dates.map(() => TARGET_RTC),
-                            borderColor: 'rgba(239,68,68,0.6)',
-                            borderDash: [5, 5],
-                            borderWidth: 1.5,
-                            pointRadius: 0,
-                            fill: false
-                        },
-                        {
-                            label: 'مؤشر OTC (٦٠)',
-                            data: p.dates.map(() => TARGET_OTC),
-                            borderColor: 'rgba(245,158,11,0.6)',
-                            borderDash: [5, 5],
-                            borderWidth: 1.5,
-                            pointRadius: 0,
-                            fill: false
                         }
                     ]
                 },
@@ -2328,9 +2184,10 @@ function renderCharts(h, p) {
                     scales: {
                         x: { grid: { color: 'rgba(255,255,255,0.04)' } },
                         y: { 
-                            beginAtZero: true,
+                            min: 0,
+                            max: 100,
                             grid: { color: 'rgba(255,255,255,0.04)' },
-                            title: { display: true, text: 'دقيقة', color: '#6B7388' }
+                            title: { display: true, text: 'نسبة الالتزام %', color: '#6B7388' }
                         }
                     }
                 }
@@ -2349,17 +2206,23 @@ async function exportAllDash() {
     
     const dashboardArea = document.getElementById('resultsSection');
     
-    // Hide individual export buttons before capture to keep it clean
     const actionButtons = dashboardArea.querySelectorAll('.hospital-actions');
     actionButtons.forEach(btn => btn.style.display = 'none');
     
+    // Fix scroll issues for html2canvas
+    const oldPos = dashboardArea.style.position;
+    dashboardArea.style.position = 'relative';
+    window.scrollTo(0,0);
+    
     try {
         const canvas = await html2canvas(dashboardArea, {
-            scale: 1.5, // Balance between quality and file size
+            scale: 1.5,
             backgroundColor: '#0A0E1A',
             useCORS: true,
             logging: false,
-            windowWidth: 1600 // Standardize width during capture
+            scrollY: -window.scrollY,
+            windowWidth: document.documentElement.offsetWidth,
+            windowHeight: dashboardArea.scrollHeight + 200
         });
         
         canvas.toBlob(blob => {
@@ -2374,8 +2237,8 @@ async function exportAllDash() {
         alert('خطأ في تصدير الداشبورد: ' + err.message);
         console.error(err);
     } finally {
-        // Restore buttons
         actionButtons.forEach(btn => btn.style.display = 'flex');
+        dashboardArea.style.position = oldPos;
         overlay.classList.remove('active');
     }
 }
@@ -2396,9 +2259,6 @@ async function exportSlide(h) {
     
     const fmt = v => v === null ? '--' : v.toFixed(1);
     const o = p.overall;
-    const dist = p.rtcBuckets;
-    const total = dist.b1 + dist.b2 + dist.b3 + dist.b4;
-    const pct = (n) => total > 0 ? (n / total * 100).toFixed(0) : '0';
     
     const dateRange = p.dates.length > 1 
         ? `${p.dates[0].date} → ${p.dates[p.dates.length-1].date}` 
@@ -2408,13 +2268,6 @@ async function exportSlide(h) {
         if (val === null) return '#F59E0B';
         if (val >= 80) return '#10B981';
         if (val >= 60) return '#F59E0B';
-        return '#EF4444';
-    };
-    
-    const statusColor = (val, target) => {
-        if (val === null) return '#F59E0B';
-        if (val <= target) return '#10B981';
-        if (val <= target * 1.3) return '#F59E0B';
         return '#EF4444';
     };
     
@@ -2433,85 +2286,61 @@ async function exportSlide(h) {
             </div>
             <div class="slide-meta">
                 <div class="date-big" style="direction: ltr;">${dateRange}</div>
-                <div>${p.completed.toLocaleString('en')} عينة مكتملة • ${p.rejected.toLocaleString('en')} مرفوضة</div>
+                <div>${p.completed.toLocaleString('en')} اختبار مكتمل • ${p.rejected.toLocaleString('en')} مرفوضة</div>
             </div>
         </div>
         
         <div class="slide-kpi-row">
-            <div class="slide-kpi flagship" style="border-color:${compColor(o.compliance_overall)}">
-                <div class="indicator" style="background:${compColor(o.compliance_overall)};box-shadow:0 0 8px ${compColor(o.compliance_overall)};"></div>
-                <div class="label">الالتزام العام (مدمج)</div>
-                <div class="value">${fmt(o.compliance_overall)}<span style="font-size:16px;color:#6B7388;">%</span></div>
-                <div class="target">هدفي OTC و RTC معاً</div>
+            <div class="slide-kpi flagship" style="border-color:${compColor(o.compliance_otc)}">
+                <div class="indicator" style="background:${compColor(o.compliance_otc)};box-shadow:0 0 8px ${compColor(o.compliance_otc)};"></div>
+                <div class="label">التزام الطلب للنتيجة OTC</div>
+                <div class="value">${fmt(o.compliance_otc)}<span style="font-size:16px;color:#6B7388;">%</span></div>
+                <div class="target">المستهدف ٦٠ د • متوسط ${fmt(o.otc)}د</div>
             </div>
+            
+            <div class="slide-kpi flagship" style="border-color:${compColor(o.compliance_rtc)}">
+                <div class="indicator" style="background:${compColor(o.compliance_rtc)};box-shadow:0 0 8px ${compColor(o.compliance_rtc)};"></div>
+                <div class="label">التزام الاستقبال للنتيجة RTC</div>
+                <div class="value">${fmt(o.compliance_rtc)}<span style="font-size:16px;color:#6B7388;">%</span></div>
+                <div class="target">المستهدف ٣٥ د • متوسط ${fmt(o.rtc)}د</div>
+            </div>
+            
             <div class="slide-kpi alert">
                 <div class="indicator" style="background:#EF4444;"></div>
-                <div class="label">عينات خارج المؤشر</div>
-                <div class="value" style="color:#EF4444;">${o.out_of_target.toLocaleString('en')}</div>
-                <div class="target">تجاوزت أياً من الهدفين</div>
+                <div class="label">العينات المتأخرة</div>
+                <div class="value" style="color:#EF4444;">${o.out_of_target_samples.toLocaleString('en')}</div>
+                <div class="target">عينة فريدة تأخرت في أي مؤشر</div>
             </div>
+
             <div class="slide-kpi">
-                <div class="indicator" style="background:${statusColor(o.otc, TARGET_OTC)};"></div>
-                <div class="label">متوسط Order → Complete</div>
-                <div class="value">${fmt(o.otc)}<span style="font-size:14px;color:#6B7388;"> د</span></div>
-                <div class="target">المستهدف ٦٠ دقيقة</div>
-            </div>
-            <div class="slide-kpi">
-                <div class="indicator" style="background:${statusColor(o.rtc, TARGET_RTC)};"></div>
-                <div class="label">متوسط Receive → Complete</div>
-                <div class="value">${fmt(o.rtc)}<span style="font-size:14px;color:#6B7388;"> د</span></div>
-                <div class="target">المستهدف ٣٥ دقيقة</div>
+                <div class="indicator" style="background:#10B981;"></div>
+                <div class="label">وسيط RTC (Median)</div>
+                <div class="value">${fmt(o.rtc_median)}<span style="font-size:14px;color:#6B7388;"> د</span></div>
+                <div class="target">الوسيط للاستقبال للنتيجة</div>
             </div>
         </div>
         
         <div class="slide-content-grid">
             <div class="slide-panel">
-                <h3>الالتزام حسب الشفت</h3>
+                <h3>أداء الورديات (الشفتات)</h3>
                 <div class="slide-shifts">
                     ${['morning','afternoon','night'].map(s => {
                         const sd = p.byShift[s];
                         const lbl = SHIFT_LABELS[s];
-                        const cls = sd.compliance_overall >= 70 ? 'under' : 'over';
                         return `
-                            <div class="slide-shift ${cls}">
+                            <div class="slide-shift">
                                 <div class="name">${lbl.ar}</div>
-                                <div class="val">${fmt(sd.compliance_overall)}%</div>
-                                <div class="lbl">${sd.count} عينة</div>
+                                <div class="val-row">
+                                    <span class="lbl">التزام OTC</span>
+                                    <span style="font-weight:900; color:${compColor(sd.compliance_otc)}">${fmt(sd.compliance_otc)}%</span>
+                                </div>
+                                <div class="val-row" style="border:none; padding:0; margin:0;">
+                                    <span class="lbl">التزام RTC</span>
+                                    <span style="font-weight:900; color:${compColor(sd.compliance_rtc)}">${fmt(sd.compliance_rtc)}%</span>
+                                </div>
                             </div>
                         `;
                     }).join('')}
-                </div>
-                <div style="margin-top: 18px; padding: 14px; background: var(--bg-input); border-radius: 8px; font-size: 12px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span style="color: var(--text-tertiary);">وسيط RTC</span>
-                        <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700;">${fmt(o.rtc_median)} د</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <span style="color: var(--text-tertiary);">إجمالي عينات ER</span>
-                        <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700;">${p.total.toLocaleString('en')}</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="slide-panel">
-                <h3>توزيع شرائح Receive → Complete</h3>
-                <div class="slide-dist-list">
-                    <div class="slide-dist-row">
-                        <div class="head"><span class="nm">≤ ٣٥ دقيقة (ضمن الهدف)</span><span class="ct">${dist.b1.toLocaleString('en')} (${pct(dist.b1)}%)</span></div>
-                        <div class="bar"><div style="width:${pct(dist.b1)}%;background:linear-gradient(90deg,#10B981,#34D399);"></div></div>
-                    </div>
-                    <div class="slide-dist-row">
-                        <div class="head"><span class="nm">٣٦ - ٦٠ دقيقة</span><span class="ct">${dist.b2.toLocaleString('en')} (${pct(dist.b2)}%)</span></div>
-                        <div class="bar"><div style="width:${pct(dist.b2)}%;background:linear-gradient(90deg,#F59E0B,#FBBF24);"></div></div>
-                    </div>
-                    <div class="slide-dist-row">
-                        <div class="head"><span class="nm">٦١ - ٩٠ دقيقة</span><span class="ct">${dist.b3.toLocaleString('en')} (${pct(dist.b3)}%)</span></div>
-                        <div class="bar"><div style="width:${pct(dist.b3)}%;background:linear-gradient(90deg,#F97316,#FB923C);"></div></div>
-                    </div>
-                    <div class="slide-dist-row">
-                        <div class="head"><span class="nm">> ٩٠ دقيقة (حرج)</span><span class="ct">${dist.b4.toLocaleString('en')} (${pct(dist.b4)}%)</span></div>
-                        <div class="bar"><div style="width:${pct(dist.b4)}%;background:linear-gradient(90deg,#EF4444,#F87171);"></div></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -2550,6 +2379,125 @@ async function exportSlide(h) {
     }
 }
 
+// ======== EXPORT COMPARISON SLIDE ========
+async function exportComparisonSlide() {
+    const valid = Object.entries(STATE.processed).filter(([h, p]) => p && !p.empty);
+    if (valid.length === 0) {
+        alert('لا توجد بيانات صالحة للمقارنة');
+        return;
+    }
+    
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.classList.add('active');
+    document.getElementById('loadingText').textContent = 'جاري إنشاء شريحة المقارنة...';
+    
+    await new Promise(r => setTimeout(r, 100));
+    
+    const fmt = v => v === null ? '--' : v.toFixed(1);
+    
+    const slide = document.getElementById('compareExport');
+    slide.style.setProperty('--hospital-accent', '#8B5CF6'); // Violet for comparison
+    
+    // Generate bars HTML
+    let otcHtml = '';
+    let rtcHtml = '';
+    
+    // Sort by compliance descending
+    const sortedByOtc = [...valid].sort((a, b) => b[1].overall.compliance_otc - a[1].overall.compliance_otc);
+    const sortedByRtc = [...valid].sort((a, b) => b[1].overall.compliance_rtc - a[1].overall.compliance_rtc);
+    
+    const compColor = (val) => {
+        if (val === null) return '#F59E0B';
+        if (val >= 80) return 'linear-gradient(90deg, #10B981, #34D399)';
+        if (val >= 60) return 'linear-gradient(90deg, #F59E0B, #FBBF24)';
+        return 'linear-gradient(90deg, #EF4444, #F87171)';
+    };
+
+    sortedByOtc.forEach(([h, p]) => {
+        const val = p.overall.compliance_otc;
+        otcHtml += `
+            <div class="compare-row">
+                <div class="compare-label">${HOSPITAL_NAMES[h]}</div>
+                <div class="compare-bar-wrap">
+                    <div class="compare-bar-fill" style="width: ${val}%; background: ${compColor(val)};"></div>
+                    <div class="compare-bar-text">${fmt(val)}%</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    sortedByRtc.forEach(([h, p]) => {
+        const val = p.overall.compliance_rtc;
+        rtcHtml += `
+            <div class="compare-row">
+                <div class="compare-label">${HOSPITAL_NAMES[h]}</div>
+                <div class="compare-bar-wrap">
+                    <div class="compare-bar-fill" style="width: ${val}%; background: ${compColor(val)};"></div>
+                    <div class="compare-bar-text">${fmt(val)}%</div>
+                </div>
+            </div>
+        `;
+    });
+
+    slide.innerHTML = `
+        <div class="slide-header">
+            <div class="slide-brand">
+                <div>
+                    <h1>مقارنة أداء مختبرات الطوارئ</h1>
+                    <div class="subtitle">مركز القيادة والتحكم • الخدمات الصحية المساندة</div>
+                </div>
+            </div>
+            <div class="slide-meta">
+                <div class="date-big" style="direction: ltr;">${new Date().toISOString().slice(0, 10)}</div>
+                <div>${valid.length} مستشفيات مستهدفة</div>
+            </div>
+        </div>
+        
+        <div class="slide-content-grid" style="grid-template-columns: 1fr 1fr; margin-top: 40px;">
+            <div class="slide-panel" style="padding: 30px;">
+                <h3 style="font-size: 18px; margin-bottom: 24px; color: var(--accent-blue);">التزام (الطلب للنتيجة OTC) <= 60 دقيقة</h3>
+                ${otcHtml}
+            </div>
+            <div class="slide-panel" style="padding: 30px;">
+                <h3 style="font-size: 18px; margin-bottom: 24px; color: var(--accent-emerald);">التزام (الاستقبال للنتيجة RTC) <= 35 دقيقة</h3>
+                ${rtcHtml}
+            </div>
+        </div>
+        
+        <div class="slide-footer">
+            <span class="left">CCC • SHS</span>
+            <span>مؤشرات أداء مختبرات الطوارئ التحليلية</span>
+        </div>
+    `;
+    
+    slide.classList.add('active');
+    
+    try {
+        const canvas = await html2canvas(slide, {
+            width: 1280,
+            height: 720,
+            backgroundColor: '#0A0E1A',
+            scale: 2,
+            logging: false
+        });
+        
+        canvas.toBlob(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ER_Lab_Comparison_${new Date().toISOString().slice(0,10)}.png`;
+            a.click();
+            setTimeout(() => URL.revokeObjectURL(url), 100);
+        });
+    } catch (err) {
+        alert('خطأ في تصدير المقارنة: ' + err.message);
+        console.error(err);
+    } finally {
+        slide.classList.remove('active');
+        overlay.classList.remove('active');
+    }
+}
+
 // ======== RESET ========
 function resetAll() {
     if (!confirm('متأكد من مسح جميع الملفات؟')) return;
@@ -2575,6 +2523,7 @@ function resetAll() {
     document.getElementById('hospitalsSection').innerHTML = '';
     document.getElementById('totalSamples').textContent = '--';
     document.getElementById('btnExportAll').disabled = true;
+    document.getElementById('btnExportCompare').disabled = true;
     
     updateUploadStatus();
 }
